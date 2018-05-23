@@ -15,7 +15,9 @@ public class MushroomWarJava {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+        new mushroomUI().setVisible(true);
     }
+    
+    
     
 }
