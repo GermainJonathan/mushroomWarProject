@@ -23,6 +23,12 @@ public class Unity extends javax.swing.JPanel {
         initComponents();
         setSize(15, 15);
     }
+    
+    public Unity(Player thePlayer) {
+        initComponents();
+        setSize(15, 15);
+        this.setPlayer(thePlayer);
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
