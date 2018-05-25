@@ -5,6 +5,7 @@
  */
 package mushroomwarjava;
 
+import component.House;
 import component.Unity;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,27 +21,21 @@ public class Player {
     private final int team;
     private final String name;
     
-    private List<Unity> unities;
+    private List<House> houses;
 
-    public Player(int baseUnities, int team, String name) {
-        this.unities = new ArrayList<>();
-        for(int i = 0; i < baseUnities; i++) {
-            this.unities.add(new Unity(this));
-        }
+    public Player(int team, String name) {
+        this.houses = new ArrayList<>();
         this.team = team;
         this.name = name;
     }
     
     public int getUnities() {
-        return unities.size();
-    }
-
-    public void setUnities(int unities) {
-        for(int i =0; i<unities; i++) {
-            this.unities.add(new Unity(this));
+        int compt = 0;
+        for(House elem : houses) {
+            compt += elem.getUnities().size();
         }
+        return compt;
     }
-
 
     public int getTeam() {
         return team;
@@ -50,6 +45,10 @@ public class Player {
         return name;
     }
 
+    public void addHouse(House theMaison) {
+        
+    }
+    
     @Override
     public String toString() {
         return name;
