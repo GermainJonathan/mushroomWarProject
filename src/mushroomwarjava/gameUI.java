@@ -5,6 +5,7 @@
  */
 package mushroomwarjava;
 
+import component.Unity;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
@@ -14,12 +15,18 @@ import javax.imageio.ImageIO;
  * @author Jonathan Germain
  */
 public class gameUI extends javax.swing.JFrame {
+    
+    private Player playerRed;
+    private Player playerBlue;
     /**
      * Creates new form gameUI
      */
     public gameUI() {
         initComponents();
-        
+        this.playerRed = new Player(10,Player.TEAM_RED, "redPlayer");
+        this.playerBlue = new Player(10,Player.TEAM_BLUE, "bluePlayer");  
+        this.spawBlue.setPlayer(this.playerBlue);
+        this.spawnRed.setPlayer(this.playerRed);
     }
 
     /**
@@ -32,7 +39,11 @@ public class gameUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        spawBlue = new component.House();
+        spawnRed = new component.House();
+        house1 = new component.House();
+        jButton1 = new javax.swing.JButton();
+        map = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mushroom War Java Project");
@@ -43,25 +54,34 @@ public class gameUI extends javax.swing.JFrame {
 
         jPanel1.setAlignmentX(0.0F);
         jPanel1.setAlignmentY(0.0F);
-        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanel1.setMaximumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setMinimumSize(new java.awt.Dimension(1095, 610));
+        jPanel1.setLayout(null);
+        jPanel1.add(spawBlue);
+        spawBlue.setBounds(310, 20, 64, 90);
+        jPanel1.add(spawnRed);
+        spawnRed.setBounds(890, 500, 64, 90);
+        jPanel1.add(house1);
+        house1.setBounds(320, 450, 64, 90);
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Jonathan Germain\\Documents\\NetBeansProjects\\mushroomWarProject\\assets\\map.jpg")); // NOI18N
-        jLabel1.setToolTipText("");
-        jLabel1.setAlignmentY(0.0F);
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1);
+        jButton1.setBounds(80, 300, 73, 23);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1)
-        );
+        map.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        map.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/map.jpg"))); // NOI18N
+        map.setToolTipText("");
+        map.setAlignmentY(0.0F);
+        map.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        map.setName(""); // NOI18N
+        jPanel1.add(map);
+        map.setBounds(0, 0, 1095, 610);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -75,7 +95,17 @@ public class gameUI extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        spawnRed.setScore(0);
+        Unity unit = new Unity();
+        unit.setPlayer(playerBlue);
+        jPanel1.add(unit);
+        jPanel1.setComponentZOrder(unit, 0);
+        unit.setLocation(100, 100);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -113,7 +143,11 @@ public class gameUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private component.House house1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel map;
+    private component.House spawBlue;
+    private component.House spawnRed;
     // End of variables declaration//GEN-END:variables
 }
