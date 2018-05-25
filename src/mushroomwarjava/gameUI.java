@@ -39,8 +39,15 @@ public class gameUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        unitiesProgessBar2 = new component.UnitiesProgessBar();
         spawBlue = new component.House();
         spawnRed = new component.House();
+        house7 = new component.House();
+        house6 = new component.House();
+        house5 = new component.House();
+        house4 = new component.House();
+        house3 = new component.House();
+        house2 = new component.House();
         house1 = new component.House();
         jButton1 = new javax.swing.JButton();
         map = new javax.swing.JLabel();
@@ -58,12 +65,26 @@ public class gameUI extends javax.swing.JFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setMinimumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setLayout(null);
+        jPanel1.add(unitiesProgessBar2);
+        unitiesProgessBar2.setBounds(410, 0, 300, 15);
         jPanel1.add(spawBlue);
-        spawBlue.setBounds(310, 20, 64, 90);
+        spawBlue.setBounds(30, 10, 64, 90);
         jPanel1.add(spawnRed);
         spawnRed.setBounds(890, 500, 64, 90);
+        jPanel1.add(house7);
+        house7.setBounds(330, 40, 64, 90);
+        jPanel1.add(house6);
+        house6.setBounds(60, 300, 64, 90);
+        jPanel1.add(house5);
+        house5.setBounds(620, 350, 64, 90);
+        jPanel1.add(house4);
+        house4.setBounds(1020, 300, 64, 90);
+        jPanel1.add(house3);
+        house3.setBounds(740, 40, 64, 90);
+        jPanel1.add(house2);
+        house2.setBounds(550, 170, 64, 90);
         jPanel1.add(house1);
-        house1.setBounds(320, 450, 64, 90);
+        house1.setBounds(310, 480, 64, 90);
 
         jButton1.setText("jButton1");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -72,7 +93,7 @@ public class gameUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton1);
-        jButton1.setBounds(80, 300, 73, 23);
+        jButton1.setBounds(60, 200, 73, 23);
 
         map.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         map.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/map.jpg"))); // NOI18N
@@ -123,15 +144,11 @@ public class gameUI extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(gameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(gameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(gameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(gameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        
         //</editor-fold>
 
         /* Create and display the form */
@@ -144,10 +161,17 @@ public class gameUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.House house1;
+    private component.House house2;
+    private component.House house3;
+    private component.House house4;
+    private component.House house5;
+    private component.House house6;
+    private component.House house7;
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel map;
     private component.House spawBlue;
     private component.House spawnRed;
+    private component.UnitiesProgessBar unitiesProgessBar2;
     // End of variables declaration//GEN-END:variables
 }
