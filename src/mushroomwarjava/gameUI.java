@@ -23,10 +23,12 @@ public class gameUI extends javax.swing.JFrame {
      */
     public gameUI() {
         initComponents();
-        this.playerRed = new Player(10,Player.TEAM_RED, "redPlayer");
-        this.playerBlue = new Player(10,Player.TEAM_BLUE, "bluePlayer");  
-        this.spawBlue.setPlayer(this.playerBlue);
+        this.playerRed = new Player(Player.TEAM_RED, "redPlayer");
+        this.playerBlue = new Player(Player.TEAM_BLUE, "bluePlayer");  
+        this.spawnBlue.setPlayer(this.playerBlue);
+        this.spawnBlue.setUnit(10);
         this.spawnRed.setPlayer(this.playerRed);
+        this.spawnRed.setUnit(10);
     }
 
     /**
@@ -40,7 +42,7 @@ public class gameUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         unitiesProgessBar2 = new component.UnitiesProgessBar();
-        spawBlue = new component.House();
+        spawnBlue = new component.House();
         spawnRed = new component.House();
         house7 = new component.House();
         house6 = new component.House();
@@ -54,7 +56,6 @@ public class gameUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mushroom War Java Project");
-        setMaximumSize(new java.awt.Dimension(1095, 610));
         setMinimumSize(new java.awt.Dimension(1095, 610));
         setResizable(false);
         setSize(new java.awt.Dimension(1095, 610));
@@ -67,8 +68,8 @@ public class gameUI extends javax.swing.JFrame {
         jPanel1.setLayout(null);
         jPanel1.add(unitiesProgessBar2);
         unitiesProgessBar2.setBounds(410, 0, 300, 15);
-        jPanel1.add(spawBlue);
-        spawBlue.setBounds(30, 10, 64, 90);
+        jPanel1.add(spawnBlue);
+        spawnBlue.setBounds(30, 10, 64, 90);
         jPanel1.add(spawnRed);
         spawnRed.setBounds(890, 500, 64, 90);
         jPanel1.add(house7);
@@ -170,7 +171,7 @@ public class gameUI extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel map;
-    private component.House spawBlue;
+    private component.House spawnBlue;
     private component.House spawnRed;
     private component.UnitiesProgessBar unitiesProgessBar2;
     // End of variables declaration//GEN-END:variables

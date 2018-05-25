@@ -5,6 +5,11 @@
  */
 package component;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
 
 /**
@@ -14,35 +19,58 @@ import mushroomwarjava.Player;
 public class House extends javax.swing.JPanel {
 
     private Player currentPlayer;
+    private boolean isSelected = false;
+    private List<Unity> unities;
+    private GenerateUnity generation;
+    
     /**
      * Creates new form House
      */
     public House() {
         initComponents();
+        this.unities = new ArrayList<>();
     }
     
     public void setScore(int score) {
         this.countHouse.setText(score + "");
-        if(score > 0) {
-            if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
-                mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
-            }
-            if(this.currentPlayer.getTeam() == Player.TEAM_RED) {
-                mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
-            }
-        } else {
-            mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/emptyMushroom.png"))); // NOI18N
+        
+    }
+    
+    public void setUnit(int nbUnities) {
+        for(int i =0 ;i < nbUnities; i++) {
+            this.unities.add(new Unity(this.currentPlayer));
         }
-        mushroom.repaint();
     }
     
     public void setPlayer(Player p) {
         this.currentPlayer = p;
-        this.setScore(p.getUnities());
+        if(this.generation != null) {
+            this.destroyGeneration();
+        }
+        this.generation = new GenerateUnity(this);
+        this.generation.start();
+    }
+   
+    public Player getPlayer() {
+        return this.currentPlayer;
     }
     
+    public void addUnit(Unity newUnit) {
+        this.unities.add(newUnit);
+        this.refreshScore();
+    }
     
-
+    public List<Unity> getUnities() {
+        return this.unities;
+    }
+    
+    public void refreshScore() {
+        this.countHouse.setText(this.unities.size() + "");
+    }
+    
+    public void destroyGeneration() {
+        this.generation.stopGenerate();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,8 +104,37 @@ public class House extends javax.swing.JPanel {
         mushroom.setMaximumSize(new java.awt.Dimension(64, 90));
         mushroom.setMinimumSize(new java.awt.Dimension(64, 90));
         mushroom.setPreferredSize(new java.awt.Dimension(64, 90));
+        mushroom.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mushroomMouseClicked(evt);
+            }
+        });
         add(mushroom, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mushroomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMouseClicked
+        // TODO add your handling code here:
+        if(this.currentPlayer != null) {
+            if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
+                if(!this.isSelected) {
+                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroomActive.png"))); // NOI18N
+                    this.isSelected = true;
+                } else {
+                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
+                    this.isSelected = false;
+                }
+            }
+            if(this.currentPlayer.getTeam() == Player.TEAM_RED) {
+                if(!this.isSelected) {
+                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroomActive.png"))); // NOI18N
+                    this.isSelected = true;
+                } else {
+                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
+                    this.isSelected = false;
+                }
+            }           
+        }
+    }//GEN-LAST:event_mushroomMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
