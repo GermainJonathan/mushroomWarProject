@@ -38,10 +38,11 @@ public class UnitiesProgessBar extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         jProgressBar1.setBackground(new java.awt.Color(255, 0, 0));
-        jProgressBar1.setForeground(new java.awt.Color(0, 0, 255));
+        jProgressBar1.setFont(new java.awt.Font("Arial", 0, 11)); // NOI18N
         jProgressBar1.setToolTipText("");
         jProgressBar1.setValue(50);
         jProgressBar1.setBorderPainted(false);
+        jProgressBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jProgressBar1.setOpaque(true);
         add(jProgressBar1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents

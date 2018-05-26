@@ -6,7 +6,6 @@
 package mushroomwarjava;
 
 import component.House;
-import component.Unity;
 import java.util.ArrayList;
 import java.util.List;
 
