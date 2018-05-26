@@ -7,8 +7,6 @@ package component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
 
@@ -44,6 +42,11 @@ public class House extends javax.swing.JPanel {
     
     public void setPlayer(Player p) {
         this.currentPlayer = p;
+        if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
+            mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
+        } else {
+            mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
+        }
         if(this.generation != null) {
             this.destroyGeneration();
         }
@@ -108,6 +111,9 @@ public class House extends javax.swing.JPanel {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 mushroomMouseClicked(evt);
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mushroomMousePressed(evt);
+            }
         });
         add(mushroom, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -135,6 +141,13 @@ public class House extends javax.swing.JPanel {
             }           
         }
     }//GEN-LAST:event_mushroomMouseClicked
+
+    private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
+        // TODO add your handling code here:
+        if(evt.getButton() == 3) {
+            System.out.println("attaque en cours");
+        }
+    }//GEN-LAST:event_mushroomMousePressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

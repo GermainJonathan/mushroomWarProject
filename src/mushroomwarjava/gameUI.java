@@ -5,10 +5,7 @@
  */
 package mushroomwarjava;
 
-import component.Unity;
-import java.awt.Image;
-import java.io.File;
-import javax.imageio.ImageIO;
+import java.awt.Toolkit;
 
 /**
  *
@@ -16,19 +13,16 @@ import javax.imageio.ImageIO;
  */
 public class gameUI extends javax.swing.JFrame {
     
+    public static int MAX_UNITIES_SPAWNABLE = 300;
     private Player playerRed;
     private Player playerBlue;
+    private Player actionPlayer;
     /**
      * Creates new form gameUI
      */
     public gameUI() {
         initComponents();
-        this.playerRed = new Player(Player.TEAM_RED, "redPlayer");
-        this.playerBlue = new Player(Player.TEAM_BLUE, "bluePlayer");  
-        this.spawnBlue.setPlayer(this.playerBlue);
-        this.spawnBlue.setUnit(10);
-        this.spawnRed.setPlayer(this.playerRed);
-        this.spawnRed.setUnit(10);
+        initPlayers();
     }
 
     /**
@@ -51,11 +45,11 @@ public class gameUI extends javax.swing.JFrame {
         house3 = new component.House();
         house2 = new component.House();
         house1 = new component.House();
-        jButton1 = new javax.swing.JButton();
         map = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mushroom War Java Project");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mushroomwarjava/assets/mushroomWarIcon.gif")));
         setMinimumSize(new java.awt.Dimension(1095, 610));
         setResizable(false);
         setSize(new java.awt.Dimension(1095, 610));
@@ -66,6 +60,10 @@ public class gameUI extends javax.swing.JFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setMinimumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setLayout(null);
+
+        unitiesProgessBar2.setBackground(java.awt.Color.red);
+        unitiesProgessBar2.setForeground(java.awt.Color.green);
+        unitiesProgessBar2.setToolTipText("");
         jPanel1.add(unitiesProgessBar2);
         unitiesProgessBar2.setBounds(410, 0, 300, 15);
         jPanel1.add(spawnBlue);
@@ -86,15 +84,6 @@ public class gameUI extends javax.swing.JFrame {
         house2.setBounds(550, 170, 64, 90);
         jPanel1.add(house1);
         house1.setBounds(310, 480, 64, 90);
-
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(60, 200, 73, 23);
 
         map.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         map.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/map.jpg"))); // NOI18N
@@ -120,15 +109,6 @@ public class gameUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        spawnRed.setScore(0);
-        Unity unit = new Unity();
-        unit.setPlayer(playerBlue);
-        jPanel1.add(unit);
-        jPanel1.setComponentZOrder(unit, 0);
-        unit.setLocation(100, 100);
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -140,7 +120,7 @@ public class gameUI extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -160,6 +140,32 @@ public class gameUI extends javax.swing.JFrame {
         });
     }
 
+    public void setActionPlayer(Player playable) {
+        this.actionPlayer = playable;
+        this.chooseSpawn();
+    }
+    
+    public Player getActionPlayer() {
+        return this.actionPlayer;
+    }
+    
+    private void chooseSpawn() {
+        if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
+            this.spawnBlue.setPlayer(this.actionPlayer);
+        } else {
+            this.spawnRed.setPlayer(this.actionPlayer);
+        }
+    }
+    
+    private void initPlayers() {
+        this.playerRed = new Player(Player.TEAM_RED, "redPlayer");
+        this.playerBlue = new Player(Player.TEAM_BLUE, "bluePlayer");  
+        this.spawnBlue.setPlayer(this.playerBlue);
+        this.spawnBlue.setUnit(10);
+        this.spawnRed.setPlayer(this.playerRed);
+        this.spawnRed.setUnit(10);
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.House house1;
     private component.House house2;
@@ -168,7 +174,6 @@ public class gameUI extends javax.swing.JFrame {
     private component.House house5;
     private component.House house6;
     private component.House house7;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel map;
     private component.House spawnBlue;
