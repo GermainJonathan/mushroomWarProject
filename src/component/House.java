@@ -160,7 +160,13 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
+        int x = 100;
+        int y = 101;
         if(evt.getButton() == 3) {
+            System.out.println(this.game.getActionPlayer().getSelectedHouse().getUnities().size());
+            for(Unity elem: this.game.getActionPlayer().getSelectedHouse().getUnities()) {
+                this.game.addToGame(elem, x++, y++);
+            }
             System.out.println("attaque en cours");
         }
     }//GEN-LAST:event_mushroomMousePressed
