@@ -36,11 +36,7 @@ public class Unity extends javax.swing.JPanel {
             Color teamColor = ((this.currentPlayer.getTeam() == Player.TEAM_RED) ? Color.RED : Color.BLUE);
             g.setColor(teamColor);
             g.fillOval(0, 0, 15, 15);            
-        } else {
-            g.setColor(Color.BLACK);
-            g.fillOval(0, 0, 15, 15); 
         }
-
     }
 
     public void setPlayer(Player p) {
