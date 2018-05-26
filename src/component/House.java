@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
+import mushroomwarjava.gameUI;
 
 /**
  *
@@ -16,6 +17,7 @@ import mushroomwarjava.Player;
  */
 public class House extends javax.swing.JPanel {
 
+    private gameUI game;
     private Player currentPlayer;
     private boolean isSelected = false;
     private List<Unity> unities;
@@ -38,6 +40,18 @@ public class House extends javax.swing.JPanel {
         for(int i =0 ;i < nbUnities; i++) {
             this.unities.add(new Unity(this.currentPlayer));
         }
+    }
+    
+    public void setupGame(gameUI game) {
+        this.game = game;
+    }
+    
+    public int getCountUnitiesOfTheGame() {
+        int count = 0;
+        for(House elem: this.game.getHouses()) {
+            count += elem.getUnities().size();
+        }
+        return count;
     }
     
     public void setPlayer(Player p) {
@@ -120,11 +134,12 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMouseClicked
         // TODO add your handling code here:
-        if(this.currentPlayer != null) {
+        if(this.currentPlayer != null && this.game.getActionPlayer() == this.currentPlayer) {
             if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
                 if(!this.isSelected) {
                     mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroomActive.png"))); // NOI18N
                     this.isSelected = true;
+                    this.game.getActionPlayer().setHouseSelected(this);
                 } else {
                     mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
                     this.isSelected = false;
@@ -134,6 +149,7 @@ public class House extends javax.swing.JPanel {
                 if(!this.isSelected) {
                     mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroomActive.png"))); // NOI18N
                     this.isSelected = true;
+                    this.game.getActionPlayer().setHouseSelected(this);
                 } else {
                     mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
                     this.isSelected = false;

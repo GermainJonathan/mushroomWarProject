@@ -5,7 +5,11 @@
  */
 package mushroomwarjava;
 
+import component.House;
+import component.Unity;
 import java.awt.Toolkit;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -14,14 +18,17 @@ import java.awt.Toolkit;
 public class gameUI extends javax.swing.JFrame {
     
     public static int MAX_UNITIES_SPAWNABLE = 300;
+    private List<House> housesOfGame;
     private Player playerRed;
     private Player playerBlue;
     private Player actionPlayer;
+    
     /**
      * Creates new form gameUI
      */
     public gameUI() {
         initComponents();
+        initGame();
         initPlayers();
     }
 
@@ -149,10 +156,16 @@ public class gameUI extends javax.swing.JFrame {
         return this.actionPlayer;
     }
     
+    public List<House> getHouses() {
+        return this.housesOfGame;
+    }
+    
     private void chooseSpawn() {
         if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
+            this.spawnRed.addUnit(new Unity()); // Reglage du compteur d'unité
             this.spawnBlue.setPlayer(this.actionPlayer);
         } else {
+            this.spawnBlue.addUnit(new Unity());
             this.spawnRed.setPlayer(this.actionPlayer);
         }
     }
@@ -165,6 +178,22 @@ public class gameUI extends javax.swing.JFrame {
         this.spawnRed.setPlayer(this.playerRed);
         this.spawnRed.setUnit(10);
     }
+    
+    private void initGame() {
+        this.housesOfGame = new ArrayList<>();
+        this.housesOfGame.add(house1);
+        this.housesOfGame.add(house2);
+        this.housesOfGame.add(house3);
+        this.housesOfGame.add(house4);
+        this.housesOfGame.add(house5);
+        this.housesOfGame.add(house6);
+        this.housesOfGame.add(house7);
+        this.housesOfGame.add(spawnBlue);
+        this.housesOfGame.add(spawnRed);
+        for(House elem: housesOfGame) {
+            elem.setupGame(this);
+        }
+    } 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.House house1;

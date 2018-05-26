@@ -31,11 +31,13 @@ public class GenerateUnity extends Thread {
     @Override
     public void run() {
         while(this.isRun) {
-            this.currentHouse.addUnit(new Unity(this.currentHouse.getPlayer()));
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(House.class.getName()).log(Level.SEVERE, null, ex);
+            if(this.currentHouse.getCountUnitiesOfTheGame() < gameUI.MAX_UNITIES_SPAWNABLE) {
+                this.currentHouse.addUnit(new Unity(this.currentHouse.getPlayer()));
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(House.class.getName()).log(Level.SEVERE, null, ex);
+                }                
             }
         }
     }

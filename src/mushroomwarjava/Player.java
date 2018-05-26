@@ -21,6 +21,7 @@ public class Player {
     private final String name;
     
     private List<House> houses;
+    private House selectedHouse;
 
     public Player(int team, String name) {
         this.houses = new ArrayList<>();
@@ -45,7 +46,15 @@ public class Player {
     }
 
     public void addHouse(House theMaison) {
-        
+        this.houses.add(theMaison);
+    }
+    
+    public House getSelectedHouse() {
+        return this.selectedHouse;
+    }
+    
+    public void setHouseSelected(House selection) {
+        this.selectedHouse = selection;
     }
     
     @Override
