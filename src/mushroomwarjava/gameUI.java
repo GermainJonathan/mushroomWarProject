@@ -170,10 +170,15 @@ public class gameUI extends javax.swing.JFrame {
         }
     }
     
-    public void addToGame(Unity unit, int x, int y) {
+    public void addUnitToGame(Unity unit, int x, int y) {
         jPanel1.add(unit);
         jPanel1.setComponentZOrder(unit, 0);
         unit.setLocation(x, y);
+        this.goToAttackedHouse(unit);
+    }
+    
+    private void goToAttackedHouse(Unity unit) {
+        new targeHouse();
     }
     
     private void initPlayers() {
