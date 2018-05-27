@@ -5,8 +5,14 @@
  */
 package component;
 
+import com.sun.javafx.geom.Vec2d;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Vector;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polyline;
 import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
 import mushroomwarjava.gameUI;
@@ -88,6 +94,16 @@ public class House extends javax.swing.JPanel {
     public void destroyGeneration() {
         this.generation.stopGenerate();
     }
+    
+    public Point setRandomSpawn() {
+        Point spawn = new Point((this.game.getActionPlayer().getSelectedHouse().getLocation().x + 30), (this.game.getActionPlayer().getSelectedHouse().getLocation().y + 60));
+        Random rdm = new Random();
+        double angleRad = rdm.nextDouble() * (Math.PI * 2);
+        double x = (spawn.x + 30 * Math.cos(angleRad));
+	double y = (spawn.y + 30 * Math.sin(angleRad));
+        spawn.setLocation(x, y);
+        return spawn;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,18 +176,15 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
-        int x = 100;
-        int y = 101;
         if(evt.getButton() == 3) {
             System.out.println(this.game.getActionPlayer().getSelectedHouse().getUnities().size());
             for(Unity elem: this.game.getActionPlayer().getSelectedHouse().getUnities()) {
-                this.game.addToGame(elem, x++, y++);
+                Point spawn;
+                spawn = setRandomSpawn();
+                this.game.addUnitToGame(elem, spawn.x, spawn.y);
             }
-            System.out.println("attaque en cours");
         }
     }//GEN-LAST:event_mushroomMousePressed
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel countHouse;
     private javax.swing.JLabel mushroom;
