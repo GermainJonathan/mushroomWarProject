@@ -10,6 +10,7 @@ import component.Unity;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JPanel;
 
 /**
  *
@@ -22,6 +23,7 @@ public class gameUI extends javax.swing.JFrame {
     private Player playerRed;
     private Player playerBlue;
     private Player actionPlayer;
+    private targetHouse targetAttack;
     
     /**
      * Creates new form gameUI
@@ -160,6 +162,10 @@ public class gameUI extends javax.swing.JFrame {
         return this.housesOfGame;
     }
     
+    public JPanel getActiveStateGame() {
+        return this.jPanel1;
+    }
+    
     private void chooseSpawn() {
         if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
             this.spawnRed.addUnit(new Unity()); // Reglage du compteur d'unité
@@ -170,15 +176,16 @@ public class gameUI extends javax.swing.JFrame {
         }
     }
     
-    public void addUnitToGame(Unity unit, int x, int y) {
+    public void addUnitToGame(Unity unit, int x, int y, House target) {
         jPanel1.add(unit);
         jPanel1.setComponentZOrder(unit, 0);
         unit.setLocation(x, y);
-        this.goToAttackedHouse(unit);
+        this.goToAttackedHouse(unit, target);
     }
     
-    private void goToAttackedHouse(Unity unit) {
-        new targeHouse();
+    private void goToAttackedHouse(Unity unit, House target) {
+        this.targetAttack = new targetHouse(unit, target);
+        this.targetAttack.start();
     }
     
     private void initPlayers() {

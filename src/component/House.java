@@ -5,14 +5,13 @@
  */
 package component;
 
-import com.sun.javafx.geom.Vec2d;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polyline;
 import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
 import mushroomwarjava.gameUI;
@@ -28,6 +27,7 @@ public class House extends javax.swing.JPanel {
     private boolean isSelected = false;
     private List<Unity> unities;
     private GenerateUnity generation;
+    private Circle hitBox;
     
     /**
      * Creates new form House
@@ -35,6 +35,7 @@ public class House extends javax.swing.JPanel {
     public House() {
         initComponents();
         this.unities = new ArrayList<>();
+        this.hitBox = new Circle(this.getX(), this.getY(), 15);
     }
     
     public void setScore(int score) {
@@ -78,6 +79,10 @@ public class House extends javax.swing.JPanel {
         return this.currentPlayer;
     }
     
+    public boolean isOnHitbox(Unity unit) {
+        return this.hitBox.contains(unit.getX(), unit.getY());
+    }
+    
     public void addUnit(Unity newUnit) {
         this.unities.add(newUnit);
         this.refreshScore();
@@ -103,6 +108,17 @@ public class House extends javax.swing.JPanel {
 	double y = (spawn.y + 30 * Math.sin(angleRad));
         spawn.setLocation(x, y);
         return spawn;
+    }
+    
+    public void isAttackBy(Unity unit) {
+        System.out.println("component.House.isAttackBy()");
+        if(!this.unities.isEmpty()) {
+
+        } else {
+            this.setPlayer(unit.getPlayer());
+        }
+        unit.setVisible(false);
+        this.game.getActiveStateGame().remove(unit);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -177,12 +193,15 @@ public class House extends javax.swing.JPanel {
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
         if(evt.getButton() == 3) {
-            System.out.println(this.game.getActionPlayer().getSelectedHouse().getUnities().size());
-            for(Unity elem: this.game.getActionPlayer().getSelectedHouse().getUnities()) {
-                Point spawn;
-                spawn = setRandomSpawn();
-                this.game.addUnitToGame(elem, spawn.x, spawn.y);
-            }
+            try {
+                for(Unity elem: this.game.getActionPlayer().getSelectedHouse().getUnities()) {
+                   Point spawn;
+                   spawn = setRandomSpawn();
+                   this.game.addUnitToGame(elem, spawn.x, spawn.y, this);
+               }
+            } catch(ConcurrentModificationException e) {
+                System.out.println(e.getMessage());
+            }  
         }
     }//GEN-LAST:event_mushroomMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables

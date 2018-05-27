@@ -45,6 +45,10 @@ public class Unity extends javax.swing.JPanel {
         this.currentPlayer = p;
         this.repaint();
     }
+    
+    public Player getPlayer() {
+        return this.currentPlayer;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
