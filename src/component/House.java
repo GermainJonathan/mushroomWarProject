@@ -6,12 +6,11 @@
 package component;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
-import javafx.scene.shape.Circle;
+import mushroomwarjava.Circle;
 import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
 import mushroomwarjava.gameUI;
@@ -26,6 +25,7 @@ public class House extends javax.swing.JPanel {
     private Player currentPlayer;
     private boolean isSelected = false;
     private List<Unity> unities;
+    private boolean unitiesBusy = false;
     private GenerateUnity generation;
     private Circle hitBox;
     
@@ -35,7 +35,6 @@ public class House extends javax.swing.JPanel {
     public House() {
         initComponents();
         this.unities = new ArrayList<>();
-        this.hitBox = new Circle(this.getX(), this.getY(), 15);
     }
     
     public void setScore(int score) {
@@ -84,7 +83,13 @@ public class House extends javax.swing.JPanel {
     }
     
     public void addUnit(Unity newUnit) {
-        this.unities.add(newUnit);
+        do {
+            if(!this.unitiesBusy) {
+                this.unitiesBusy = true;
+                this.unities.add(newUnit);
+                this.unitiesBusy = false;
+            }            
+        } while(!this.unities.contains(newUnit));
         this.refreshScore();
     }
     
@@ -111,15 +116,22 @@ public class House extends javax.swing.JPanel {
     }
     
     public void isAttackBy(Unity unit) {
-        System.out.println("component.House.isAttackBy()");
+        System.out.println("component.House.isAttackBy" + unit.getPlayer().getName());
         if(!this.unities.isEmpty()) {
-
+            this.addUnit(unit);
         } else {
             this.setPlayer(unit.getPlayer());
         }
         unit.setVisible(false);
-        this.game.getActiveStateGame().remove(unit);
+        this.game.getActiveStateGame().remove(unit); // suppression de l'entité
     }
+    
+    @Override
+    public void setBounds(int x, int y, int width, int height){
+        super.setBounds(x, y, width, height);
+        this.hitBox = new Circle(this.getX(), this.getY(), this.getWidth());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

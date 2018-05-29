@@ -9,7 +9,7 @@ package component;
  *
  * @author Jonathan Germain
  */
-public class UnitiesProgessBar extends javax.swing.JPanel {
+public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
 
     /**
      * Creates new form NewJPanel
