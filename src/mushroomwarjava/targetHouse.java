@@ -67,7 +67,6 @@ public class targetHouse extends Thread {
             this.chooseDirection();
             this.unit.setLocation(this.dest);
             this.unit.repaint();  
-            System.out.println(this.target.isOnHitbox(unit));
             if(this.target.isOnHitbox(unit)) {
                 this.target.isAttackBy(this.unit);
             }
