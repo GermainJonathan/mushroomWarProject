@@ -84,7 +84,15 @@ public class House extends javax.swing.JPanel {
     }
     
     public void addUnit(Unity newUnit) {
-        this.unities.add(newUnit);
+        if(newUnit.getPlayer() == this.currentPlayer) {
+            this.unities.add(newUnit);
+        } else {
+            if(this.currentPlayer == null) {
+                this.setPlayer(newUnit.getPlayer());
+            } else {
+                this.unities.remove(this.unities.size()-1);
+            }
+        }
         this.refreshScore();
     }
     
@@ -118,7 +126,7 @@ public class House extends javax.swing.JPanel {
         if(this.unities.size() == 0) {
             this.setPlayer(unit.getPlayer());
         }
-        this.addUnit(unit);
+        this.addUnit(unit); 
         unit.setVisible(false);
         this.game.getActiveStateGame().remove(unit); // suppression de l'entité
     }
