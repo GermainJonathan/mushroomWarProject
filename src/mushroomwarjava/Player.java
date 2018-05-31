@@ -54,6 +54,9 @@ public class Player {
     }
     
     public void setHouseSelected(House selection) {
+        if(this.selectedHouse != null) {
+            this.selectedHouse.unSelectHouse();
+        }
         this.selectedHouse = selection;
     }
     

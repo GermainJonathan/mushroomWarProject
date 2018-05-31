@@ -181,7 +181,7 @@ public class gameUI extends javax.swing.JFrame {
     }
     
     private void goToAttackedHouse(Unity unit, House target) {
-        this.targetAttack = new targetHouse(unit, target);
+        this.targetAttack = new targetHouse(this.jPanel1, unit, target);
         this.targetAttack.start();
     }
     

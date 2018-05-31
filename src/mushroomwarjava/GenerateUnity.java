@@ -28,6 +28,10 @@ public class GenerateUnity extends Thread {
         this.isRun = false;
     }
     
+    public void restartGenerate() {
+        this.isRun = true;
+    }
+    
     @Override
     public void run() {
         while(this.isRun) {

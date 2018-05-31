@@ -100,6 +100,10 @@ public class House extends javax.swing.JPanel {
         this.generation.stopGenerate();
     }
     
+    public void restartGeneration() {
+        this.generation.restartGenerate();
+    }
+    
     public Point setRandomSpawn() {
         Point spawn = new Point((this.game.getActionPlayer().getSelectedHouse().getLocation().x + 30), (this.game.getActionPlayer().getSelectedHouse().getLocation().y + 60));
         Random rdm = new Random();
@@ -111,13 +115,21 @@ public class House extends javax.swing.JPanel {
     }
     
     public void isAttackBy(Unity unit) {       
-        System.out.println("component.House.isAttackBy " + unit.getPlayer().getName());
-        if(this.currentPlayer != null) {
+        if(this.unities.size() == 0) {
             this.setPlayer(unit.getPlayer());
         }
         this.addUnit(unit);
         unit.setVisible(false);
         this.game.getActiveStateGame().remove(unit); // suppression de l'entité
+    }
+    
+    public void unSelectHouse() {
+        this.isSelected = false;
+        if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
+            mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
+        } else {
+            mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
+        }
     }
     
     @Override
@@ -200,6 +212,7 @@ public class House extends javax.swing.JPanel {
         // TODO add your handling code here:
         boolean tryPass = false;
         if(evt.getButton() == 3) {
+            this.game.getActionPlayer().getSelectedHouse().destroyGeneration();
             try {
                 for(int i = 0; i < this.game.getActionPlayer().getSelectedHouse().getUnities().size(); i++) {
                    Point spawn;
@@ -212,12 +225,10 @@ public class House extends javax.swing.JPanel {
                 System.out.println(e.getMessage());
             }
             if(tryPass) {
-                for(int i = 0; i < this.game.getActionPlayer().getSelectedHouse().getUnities().size(); i++) {
-                    this.game.getActionPlayer().getSelectedHouse().getUnities().remove(i);
-                }
-                System.out.println(this.game.getActionPlayer().getSelectedHouse().getUnities().size());
+                this.game.getActionPlayer().getSelectedHouse().getUnities().clear();
                 this.game.getActionPlayer().getSelectedHouse().refreshScore();
             }
+            this.game.getActionPlayer().getSelectedHouse().restartGeneration();
         }
     }//GEN-LAST:event_mushroomMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables

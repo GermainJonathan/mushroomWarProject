@@ -8,69 +8,43 @@ package mushroomwarjava;
 import component.House;
 import component.Unity;
 import java.awt.Point;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JPanel;
+import vectormove.EvtMove;
+import vectormove.Movement;
+import vectormove.Vector;
 
-/**
- *
- * @author Jonathan
- */
-public class targetHouse extends Thread {
+public class targetHouse extends Thread implements EvtMove{
 
-    private Unity unit;
-    private House target;
-    private Point dest;
-    
-    public targetHouse(Unity unit, House target) {
-        this.unit = unit;
-        this.target = target;
-    }
-    
-    public void chooseDirection() {
-        this.dest = new Point(this.unit.getX(), this.unit.getY());
-        if(this.unit.getX() == this.target.getX() + 30) {
-            if(this.unit.getY() < this.target.getY() + 60) {
-                this.dest.y++;
-            } else {
-                this.dest.y--;
-            }
-        } else {
-            if(this.unit.getX() < this.target.getX() + 30) {
-                this.dest.x++;
-            } else {
-                this.dest.x--;
-            }
-        }
-        if(this.unit.getY() == this.target.getY() + 60) {
-            if(this.unit.getX() < this.target.getX() + 30) {
-                this.dest.x++;
-            } else {
-                this.dest.x--;
-            }
-        } else {
-            if(this.unit.getY() < this.target.getY() + 60) {
-                this.dest.y++;
-            } else {
-                this.dest.y--;
-            }
-        }
-    }
-    
-    @Override
-    public void run() {
-        while(this.unit.getLocation() != this.target.getLocation()) {
-            try {
-                Thread.sleep(30);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(targetHouse.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.chooseDirection();
-            this.unit.setLocation(this.dest);
-            this.unit.repaint();  
-            if(this.target.isOnHitbox(unit)) {
-                this.target.isAttackBy(this.unit);
-            }
-        }
-    }
-    
+   private Unity unit;
+   private House target;
+   private JPanel map;
+   
+   public targetHouse(JPanel map, Unity unit, House target) {
+       this.unit = unit;
+       this.target = target;
+       this.map = map;
+   }
+   
+   @Override
+   public void run() {
+       int x = target.getLocation().x + (target.getWidth()/2) - (unit.getWidth()/2);
+       int y = (target.getLocation().y + (target.getHeight()/2) - (unit.getHeight()/2)) + 35;
+       Point destination = new Point(x, y);
+       Movement.move(map, unit, new Vector(unit.getLocation(), destination), 10, this);
+   }
+
+   @Override
+   public void evtStartMove(Movement m) {}
+
+   @Override
+   public void evtPauseMove(Movement m) {}
+
+   @Override
+   public void evtFinishMove(Movement m) {
+       this.target.isAttackBy(this.unit);
+   }
+
+   @Override
+   public void evtPositionMove(Movement m, int x, int y) {}
+   
 }
