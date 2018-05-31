@@ -20,8 +20,6 @@ public class gameUI extends javax.swing.JFrame {
     
     public static int MAX_UNITIES_SPAWNABLE = 300;
     private List<House> housesOfGame;
-    private Player playerRed;
-    private Player playerBlue;
     private Player actionPlayer;
     private targetHouse targetAttack;
     
@@ -31,7 +29,6 @@ public class gameUI extends javax.swing.JFrame {
     public gameUI() {
         initComponents();
         initGame();
-        initPlayers();
     }
 
     /**
@@ -168,11 +165,11 @@ public class gameUI extends javax.swing.JFrame {
     
     private void chooseSpawn() {
         if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
-            this.spawnRed.addUnit(new Unity()); // Reglage du compteur d'unité
             this.spawnBlue.setPlayer(this.actionPlayer);
+            this.spawnRed.setPlayer(new Player(Player.TEAM_RED, "Bot"));
         } else {
-            this.spawnBlue.addUnit(new Unity());
             this.spawnRed.setPlayer(this.actionPlayer);
+            this.spawnRed.setPlayer(new Player(Player.TEAM_BLUE, "Bot"));
         }
     }
     
@@ -186,15 +183,6 @@ public class gameUI extends javax.swing.JFrame {
     private void goToAttackedHouse(Unity unit, House target) {
         this.targetAttack = new targetHouse(unit, target);
         this.targetAttack.start();
-    }
-    
-    private void initPlayers() {
-        this.playerRed = new Player(Player.TEAM_RED, "redPlayer");
-        this.playerBlue = new Player(Player.TEAM_BLUE, "bluePlayer");  
-        this.spawnBlue.setPlayer(this.playerBlue);
-        this.spawnBlue.setUnit(10);
-        this.spawnRed.setPlayer(this.playerRed);
-        this.spawnRed.setUnit(10);
     }
     
     private void initGame() {
@@ -212,6 +200,15 @@ public class gameUI extends javax.swing.JFrame {
             elem.setupGame(this);
         }
     } 
+        
+    public int getCountUnitiesOfTheGame() {
+        int count = 0;
+        for(House elem: this.housesOfGame) {
+            count += elem.getUnities().size();
+        }
+        return count;
+    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.House house1;

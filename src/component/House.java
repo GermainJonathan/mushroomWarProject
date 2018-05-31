@@ -68,6 +68,7 @@ public class House extends javax.swing.JPanel {
             mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
         }
         if(this.generation != null) {
+            System.out.println("Destruction du thread de la maison " + this.toString());
             this.destroyGeneration();
         }
         this.generation = new GenerateUnity(this);
@@ -83,13 +84,7 @@ public class House extends javax.swing.JPanel {
     }
     
     public void addUnit(Unity newUnit) {
-        do {
-            if(!this.unitiesBusy) {
-                this.unitiesBusy = true;
-                this.unities.add(newUnit);
-                this.unitiesBusy = false;
-            }            
-        } while(!this.unities.contains(newUnit));
+        this.unities.add(newUnit);
         this.refreshScore();
     }
     
@@ -115,13 +110,12 @@ public class House extends javax.swing.JPanel {
         return spawn;
     }
     
-    public void isAttackBy(Unity unit) {
-        System.out.println("component.House.isAttackBy" + unit.getPlayer().getName());
-        if(!this.unities.isEmpty()) {
-            this.addUnit(unit);
-        } else {
+    public void isAttackBy(Unity unit) {       
+        System.out.println("component.House.isAttackBy " + unit.getPlayer().getName());
+        if(this.currentPlayer != null) {
             this.setPlayer(unit.getPlayer());
         }
+        this.addUnit(unit);
         unit.setVisible(false);
         this.game.getActiveStateGame().remove(unit); // suppression de l'entité
     }
@@ -204,16 +198,26 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
+        boolean tryPass = false;
         if(evt.getButton() == 3) {
             try {
-                for(Unity elem: this.game.getActionPlayer().getSelectedHouse().getUnities()) {
+                for(int i = 0; i < this.game.getActionPlayer().getSelectedHouse().getUnities().size(); i++) {
                    Point spawn;
                    spawn = setRandomSpawn();
+                   Unity elem = this.game.getActionPlayer().getSelectedHouse().getUnities().get(i);
                    this.game.addUnitToGame(elem, spawn.x, spawn.y, this);
                }
+                tryPass = true;
             } catch(ConcurrentModificationException e) {
                 System.out.println(e.getMessage());
-            }  
+            }
+            if(tryPass) {
+                for(int i = 0; i < this.game.getActionPlayer().getSelectedHouse().getUnities().size(); i++) {
+                    this.game.getActionPlayer().getSelectedHouse().getUnities().remove(i);
+                }
+                System.out.println(this.game.getActionPlayer().getSelectedHouse().getUnities().size());
+                this.game.getActionPlayer().getSelectedHouse().refreshScore();
+            }
         }
     }//GEN-LAST:event_mushroomMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
