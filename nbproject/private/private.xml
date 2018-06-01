@@ -4,10 +4,16 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/GenerateUnity.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/mushroomUI.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/component/Unity.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/MushroomWarJava.java</file>
             <file>file:/D:/Workspace/mushroomWarProject/src/component/House.java</file>
             <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/targetHouse.java</file>
-            <file>file:/D:/Workspace/mushroomWarProject/src/component/Unity.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/Player.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/helpPage.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/Circle.java</file>
             <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/gameSetting.java</file>
+            <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/stateOfGame.java</file>
             <file>file:/D:/Workspace/mushroomWarProject/src/component/UnitiesProgessBar.java</file>
             <file>file:/D:/Workspace/mushroomWarProject/src/mushroomwarjava/gameUI.java</file>
         </group>

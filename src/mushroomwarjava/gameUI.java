@@ -21,6 +21,7 @@ public class gameUI extends javax.swing.JFrame {
     public static int MAX_UNITIES_SPAWNABLE = 300;
     private List<House> housesOfGame;
     private Player actionPlayer;
+    private Player bot;
     private targetHouse targetAttack;
     
     /**
@@ -41,7 +42,7 @@ public class gameUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        unitiesProgessBar2 = new component.UnitiesProgessBar();
+        unitiesProgessBar1 = new component.UnitiesProgessBar();
         spawnBlue = new component.House();
         spawnRed = new component.House();
         house7 = new component.House();
@@ -67,11 +68,11 @@ public class gameUI extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setLayout(null);
 
-        unitiesProgessBar2.setBackground(java.awt.Color.red);
-        unitiesProgessBar2.setForeground(java.awt.Color.green);
-        unitiesProgessBar2.setToolTipText("");
-        jPanel1.add(unitiesProgessBar2);
-        unitiesProgessBar2.setBounds(410, 0, 300, 15);
+        unitiesProgessBar1.setColor1(java.awt.Color.blue);
+        unitiesProgessBar1.setColor2(java.awt.Color.red);
+        unitiesProgessBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel1.add(unitiesProgessBar1);
+        unitiesProgessBar1.setBounds(400, 0, 300, 15);
         jPanel1.add(spawnBlue);
         spawnBlue.setBounds(30, 10, 64, 90);
         jPanel1.add(spawnRed);
@@ -165,11 +166,21 @@ public class gameUI extends javax.swing.JFrame {
     
     private void chooseSpawn() {
         if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
+            this.bot = new Player(Player.TEAM_RED, "IA");
             this.spawnBlue.setPlayer(this.actionPlayer);
-            this.spawnRed.setPlayer(new Player(Player.TEAM_RED, "Bot"));
+            this.spawnRed.setPlayer(this.bot);
+            for(int i = 0; i < 10; i++) {
+                this.spawnBlue.addUnit(new Unity(this.actionPlayer));
+                this.spawnRed.addUnit(new Unity(this.bot));
+            }
         } else {
+            this.bot = new Player(Player.TEAM_BLUE, "IA");
             this.spawnRed.setPlayer(this.actionPlayer);
-            this.spawnRed.setPlayer(new Player(Player.TEAM_BLUE, "Bot"));
+            this.spawnBlue.setPlayer(this.bot);
+            for(int i = 0; i < 10; i++) {
+                this.spawnRed.addUnit(new Unity(this.actionPlayer));
+                this.spawnBlue.addUnit(new Unity(this.bot));
+            }
         }
     }
     
@@ -222,6 +233,6 @@ public class gameUI extends javax.swing.JFrame {
     private javax.swing.JLabel map;
     private component.House spawnBlue;
     private component.House spawnRed;
-    private component.UnitiesProgessBar unitiesProgessBar2;
+    private component.UnitiesProgessBar unitiesProgessBar1;
     // End of variables declaration//GEN-END:variables
 }
