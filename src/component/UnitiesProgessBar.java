@@ -17,6 +17,14 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
     public UnitiesProgessBar() {
         initComponents();
     }
+    
+    public void refreshProgressBar(int i) {
+        this.jProgressBar1.setValue(i);
+    }
+    
+    public int getValue() {
+        return this.jProgressBar1.getValue();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -29,12 +37,8 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
 
         jProgressBar1 = new javax.swing.JProgressBar();
 
-        setBackground(new java.awt.Color(255, 255, 255));
-        setForeground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(300, 15));
-        setMinimumSize(new java.awt.Dimension(300, 15));
-        setOpaque(false);
-        setPreferredSize(new java.awt.Dimension(300, 15));
+        setColor1(java.awt.Color.blue);
+        setColor2(java.awt.Color.red);
         setLayout(new java.awt.BorderLayout());
 
         jProgressBar1.setBackground(new java.awt.Color(255, 0, 0));
