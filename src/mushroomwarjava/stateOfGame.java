@@ -7,6 +7,7 @@ package mushroomwarjava;
 
 import component.House;
 import component.UnitiesProgessBar;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,8 @@ public class stateOfGame extends Thread {
     public stateOfGame(gameUI game, UnitiesProgessBar progressBar) {
         this.game = game;
         this.progressBar = progressBar;
+        this.redHouses = new ArrayList<>();
+        this.blueHouse = new ArrayList<>();
     }
     
     private int ratioHouse() {
@@ -35,16 +38,26 @@ public class stateOfGame extends Thread {
         for(House elem: this.blueHouse) {
             blueUnit += elem.getUnities().size();
         }
-        return Math.abs(redUnit/blueUnit);
+        return blueUnit;
     }
 
     @Override
     public void run() {
         do {
+            this.redHouses.clear();
+            this.blueHouse.clear();
+
             List<House> list = this.game.getHouses();
             for(House elem : list) {
-                
+                if(elem.getPlayer() != null) {
+                    if(elem.getPlayer().getTeam() == Player.TEAM_BLUE) {
+                        this.blueHouse.add(elem);
+                    } else {
+                        this.redHouses.add(elem);
+                    }   
+                }
             }
+            this.progressBar.refreshProgressBar(this.ratioHouse());
         } while(this.progressBar.getValue() != 0 || this.progressBar.getValue() == 100);
     }
     
