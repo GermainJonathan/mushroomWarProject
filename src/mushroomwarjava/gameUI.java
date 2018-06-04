@@ -23,6 +23,7 @@ public class gameUI extends javax.swing.JFrame {
     private Player actionPlayer;
     private Player bot;
     private targetHouse targetAttack;
+    private stateOfGame progressGame;
     
     /**
      * Creates new form gameUI
@@ -210,6 +211,8 @@ public class gameUI extends javax.swing.JFrame {
         for(House elem: housesOfGame) {
             elem.setupGame(this);
         }
+        this.progressGame = new stateOfGame(this, unitiesProgessBar1);
+        this.progressGame.start();
     } 
         
     public int getCountUnitiesOfTheGame() {

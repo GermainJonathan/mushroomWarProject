@@ -19,7 +19,9 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
     }
     
     public void refreshProgressBar(int i) {
-        this.jProgressBar1.setValue(i);
+        System.out.println(i);
+        this.addXElementBar1(i);
+        
     }
     
     public int getValue() {
