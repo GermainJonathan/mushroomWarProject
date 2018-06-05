@@ -9,6 +9,8 @@ import component.House;
 import component.UnitiesProgessBar;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +22,7 @@ public class stateOfGame extends Thread {
     private UnitiesProgessBar progressBar;
     private List<House> redHouses;
     private List<House> blueHouse;
+    private int count;
     
     
     public stateOfGame(gameUI game, UnitiesProgessBar progressBar) {
@@ -38,6 +41,7 @@ public class stateOfGame extends Thread {
         for(House elem: this.blueHouse) {
             blueUnit += elem.getUnities().size();
         }
+        this.count = blueUnit + redUnit;
         return blueUnit;
     }
 
@@ -46,7 +50,12 @@ public class stateOfGame extends Thread {
         do {
             this.redHouses.clear();
             this.blueHouse.clear();
-
+            this.count = 0;
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(stateOfGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
             List<House> list = this.game.getHouses();
             for(House elem : list) {
                 if(elem.getPlayer() != null) {
@@ -57,8 +66,9 @@ public class stateOfGame extends Thread {
                     }   
                 }
             }
-            this.progressBar.refreshProgressBar(this.ratioHouse());
-        } while(this.progressBar.getValue() != 0 || this.progressBar.getValue() == 100);
+            this.progressBar.refreshProgressBar(this.ratioHouse(), this.count);
+        } while(this.progressBar.isTwoPlayerAlive());
+        System.out.println("Fin du jeu");
     }
     
 }

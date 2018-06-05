@@ -20,6 +20,8 @@ public class gameUI extends javax.swing.JFrame {
     
     public static int MAX_UNITIES_SPAWNABLE = 300;
     private List<House> housesOfGame;
+    private List<Unity> redUnit;
+    private List<Unity> blueUnit;
     private Player actionPlayer;
     private Player bot;
     private targetHouse targetAttack;
@@ -144,6 +146,7 @@ public class gameUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new gameUI().setVisible(true);
+                
             }
         });
     }
@@ -163,6 +166,10 @@ public class gameUI extends javax.swing.JFrame {
     
     public JPanel getActiveStateGame() {
         return this.jPanel1;
+    }
+    
+    public void gameBegin() {
+        this.progressGame.start();
     }
     
     private void chooseSpawn() {
@@ -199,6 +206,8 @@ public class gameUI extends javax.swing.JFrame {
     
     private void initGame() {
         this.housesOfGame = new ArrayList<>();
+        this.blueUnit = new ArrayList<>();
+        this.redUnit = new ArrayList<>();
         this.housesOfGame.add(house1);
         this.housesOfGame.add(house2);
         this.housesOfGame.add(house3);
@@ -212,17 +221,35 @@ public class gameUI extends javax.swing.JFrame {
             elem.setupGame(this);
         }
         this.progressGame = new stateOfGame(this, unitiesProgessBar1);
-        this.progressGame.start();
     } 
         
     public int getCountUnitiesOfTheGame() {
-        int count = 0;
-        for(House elem: this.housesOfGame) {
-            count += elem.getUnities().size();
-        }
-        return count;
+        return (this.blueUnit.size() + this.redUnit.size());
     }
     
+    public int getBlueUnities() {
+        return this.blueUnit.size();
+    }
+    
+    public int getRedUnities() {
+        return this.redUnit.size();
+    }
+
+    public void setRedUnit(Unity redUnit) {
+        this.redUnit.add(redUnit);
+    }
+    
+    public void removeRedUnit() {
+        this.redUnit.remove(0);
+    }
+ 
+    public void setBlueUnit(Unity blueUnit) {
+        this.blueUnit.add(blueUnit);
+    }
+    
+    public void removeBlueUnit() {
+        this.blueUnit.remove(0);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private component.House house1;

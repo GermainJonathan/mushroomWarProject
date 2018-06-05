@@ -10,7 +10,11 @@ package component;
  * @author Jonathan Germain
  */
 public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
-
+    
+    private int redUnit;
+    private int blueUnit;
+    private int totalUnit;
+    
     /**
      * Creates new form NewJPanel
      */
@@ -18,14 +22,18 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
         initComponents();
     }
     
-    public void refreshProgressBar(int i) {
-        System.out.println(i);
+    public void refreshProgressBar(int i, int total) {
+        this.blueUnit = i;
+        this.clear2();
+        this.addXElementBar2(total-i);
+        this.redUnit = total - i;
+        this.clear1();
         this.addXElementBar1(i);
-        
+        this.totalUnit = total;
     }
     
-    public int getValue() {
-        return this.jProgressBar1.getValue();
+    public boolean isTwoPlayerAlive() {
+        return (this.blueUnit == 0 || this.redUnit == 0);
     }
 
     /**
