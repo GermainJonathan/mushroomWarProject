@@ -53,11 +53,7 @@ public class House extends javax.swing.JPanel {
     }
     
     public int getCountUnitiesOfTheGame() {
-        int count = 0;
-        for(House elem: this.game.getHouses()) {
-            count += elem.getUnities().size();
-        }
-        return count;
+        return this.game.getCountUnitiesOfTheGame();
     }
     
     public void setPlayer(Player p) {
@@ -71,7 +67,7 @@ public class House extends javax.swing.JPanel {
             System.out.println("Destruction du thread de la maison " + this.toString());
             this.destroyGeneration();
         }
-        this.generation = new GenerateUnity(this);
+        this.generation = new GenerateUnity(this, this.game);
         this.generation.start();
     }
    

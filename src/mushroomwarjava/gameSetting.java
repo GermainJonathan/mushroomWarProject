@@ -159,6 +159,7 @@ public class gameSetting extends javax.swing.JFrame {
         this.game.setActionPlayer(new Player(this.teamSelected, nameSelection.getText()));
         this.setVisible(false);
         this.game.setVisible(true);
+        this.game.gameBegin();
     }//GEN-LAST:event_StartActionPerformed
 
     private void blueTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueTeamActionPerformed

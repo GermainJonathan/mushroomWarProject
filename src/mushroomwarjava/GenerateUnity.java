@@ -16,11 +16,13 @@ import java.util.logging.Logger;
  */
 public class GenerateUnity extends Thread {
     
+    private gameUI game;
     private House currentHouse;
     private boolean isRun;
     
-    public GenerateUnity(House currentHouse) {
+    public GenerateUnity(House currentHouse, gameUI game) {
         this.currentHouse = currentHouse;
+        this.game= game;
         this.isRun = true;
     }
     
@@ -36,7 +38,14 @@ public class GenerateUnity extends Thread {
     public void run() {
         while(this.isRun) {
             if(this.currentHouse.getCountUnitiesOfTheGame() < gameUI.MAX_UNITIES_SPAWNABLE) {
-                this.currentHouse.addUnit(new Unity(this.currentHouse.getPlayer()));
+                int playerTeam = this.currentHouse.getPlayer().getTeam();
+                Unity unit = new Unity(this.currentHouse.getPlayer());
+                this.currentHouse.addUnit(unit);
+                if(playerTeam == Player.TEAM_BLUE) {
+                    this.game.setBlueUnit(unit);
+                } else {
+                    this.game.setRedUnit(unit);
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
