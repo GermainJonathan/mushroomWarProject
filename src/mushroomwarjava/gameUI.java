@@ -23,7 +23,7 @@ public class gameUI extends javax.swing.JFrame {
     private List<Unity> redUnit;
     private List<Unity> blueUnit;
     private Player actionPlayer;
-    private Player bot;
+    private botIA bot;
     private targetHouse targetAttack;
     private stateOfGame progressGame;
     
@@ -174,7 +174,7 @@ public class gameUI extends javax.swing.JFrame {
     
     private void chooseSpawn() {
         if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
-            this.bot = new Player(Player.TEAM_RED, "IA");
+            this.bot = new botIA(Player.TEAM_RED, "IA", this);
             this.spawnBlue.setPlayer(this.actionPlayer);
             this.spawnRed.setPlayer(this.bot);
             for(int i = 0; i < 10; i++) {
@@ -182,7 +182,7 @@ public class gameUI extends javax.swing.JFrame {
                 this.spawnRed.addUnit(new Unity(this.bot));
             }
         } else {
-            this.bot = new Player(Player.TEAM_BLUE, "IA");
+            this.bot = new botIA(Player.TEAM_BLUE, "IA", this);
             this.spawnRed.setPlayer(this.actionPlayer);
             this.spawnBlue.setPlayer(this.bot);
             for(int i = 0; i < 10; i++) {
