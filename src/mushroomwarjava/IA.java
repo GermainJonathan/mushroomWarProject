@@ -22,13 +22,25 @@ public class IA extends Thread {
         this.bot = bot;
     }
 
+    private void attackNeighbor(House source) {
+        
+    }
+    
     @Override
     public void run() {
-        for(House elem: this.bot.getHouses()) {
-            if(elem.getUnities().size() > 15) {
-                this.bot.setHouseSelected(elem);
-            }
+        System.out.println("mushroomwarjava.IA.run()");
+        while(this.bot.isAlive()) {
+            System.out.println("IA is alive");
+            for(House elem: this.bot.getHouses()) {
+                System.out.println("IA have houses");
+                if(elem.getUnities().size() > 15) {
+                    System.out.println("bot want to attack with" + elem);
+                    this.bot.setHouseSelected(elem);
+                    this.attackNeighbor(elem);
+                }
+            }            
         }
+
     }
         
 }

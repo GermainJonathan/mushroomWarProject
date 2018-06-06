@@ -41,6 +41,8 @@ public class stateOfGame extends Thread {
         for(House elem: this.blueHouse) {
             blueUnit += elem.getUnities().size();
         }
+        blueUnit += this.game.getBlueUnities();
+        redUnit += this.game.getRedUnities();
         this.count = blueUnit + redUnit;
         return blueUnit;
     }
@@ -67,7 +69,7 @@ public class stateOfGame extends Thread {
                 }
             }
             this.progressBar.refreshProgressBar(this.ratioHouse(), this.count);
-        } while(this.progressBar.isTwoPlayerAlive());
+        } while(!this.progressBar.isTwoPlayerAlive());
         System.out.println("Fin du jeu");
     }
     
