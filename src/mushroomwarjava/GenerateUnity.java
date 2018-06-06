@@ -41,11 +41,6 @@ public class GenerateUnity extends Thread {
                 int playerTeam = this.currentHouse.getPlayer().getTeam();
                 Unity unit = new Unity(this.currentHouse.getPlayer());
                 this.currentHouse.addUnit(unit);
-                if(playerTeam == Player.TEAM_BLUE) {
-                    this.game.setBlueUnit(unit);
-                } else {
-                    this.game.setRedUnit(unit);
-                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {

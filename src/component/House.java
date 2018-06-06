@@ -125,6 +125,7 @@ public class House extends javax.swing.JPanel {
         this.addUnit(unit); 
         unit.setVisible(false);
         this.game.getActiveStateGame().remove(unit); // suppression de l'entité
+        this.game.removeFromUnitList(unit);
     }
     
     public void unSelectHouse() {
@@ -190,13 +191,15 @@ public class House extends javax.swing.JPanel {
         // TODO add your handling code here:
         if(this.currentPlayer != null && this.game.getActionPlayer() == this.currentPlayer) {
             if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
+                System.out.println(this.isSelected);
                 if(!this.isSelected) {
-                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroomActive.png"))); // NOI18N
                     this.isSelected = true;
+                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroomActive.png"))); // NOI18N
                     this.game.getActionPlayer().setHouseSelected(this);
                 } else {
-                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
                     this.isSelected = false;
+                    this.game.getActionPlayer().setHouseSelected(null);
+                    mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroom.png"))); // NOI18N
                 }
             }
             if(this.currentPlayer.getTeam() == Player.TEAM_RED) {

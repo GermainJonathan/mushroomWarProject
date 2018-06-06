@@ -193,6 +193,11 @@ public class gameUI extends javax.swing.JFrame {
     }
     
     public void addUnitToGame(Unity unit, int x, int y, House target) {
+        if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
+            this.setBlueUnit(unit);
+        } else {
+            this.setRedUnit(unit);
+        }
         jPanel1.add(unit);
         jPanel1.setComponentZOrder(unit, 0);
         unit.setLocation(x, y);
@@ -239,16 +244,24 @@ public class gameUI extends javax.swing.JFrame {
         this.redUnit.add(redUnit);
     }
     
-    public void removeRedUnit() {
-        this.redUnit.remove(0);
+    private void removeRedUnit(Unity unit) {
+        this.redUnit.remove(this.redUnit.size()-1);
     }
  
     public void setBlueUnit(Unity blueUnit) {
         this.blueUnit.add(blueUnit);
     }
     
-    public void removeBlueUnit() {
-        this.blueUnit.remove(0);
+    private void removeBlueUnit() {
+        this.blueUnit.remove(this.blueUnit.size()-1);
+    }
+    
+    public void removeFromUnitList(Unity unit) {
+        if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
+            this.removeBlueUnit();
+        } else {
+            this.removeRedUnit(unit);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -20,9 +20,18 @@ public class botIA extends Player {
         super(team, name);
         this.game = game;
         this.intelligence = new IA(this, this.game);
+        this.intelligence.start();
     }
     
     public void attackInGame(House myHouse, House targetHouse) {
         
+    }
+    
+    public boolean isAlive() {
+        boolean alive = false;
+        if(this.getHouses().size() != 0) {
+            alive = true;
+        }
+        return alive;
     }
 }
