@@ -101,7 +101,9 @@ public class House extends javax.swing.JPanel {
     }
     
     public void destroyGeneration() {
-        this.generation.stopGenerate();
+        if(this.generation != null) {
+            this.generation.stopGenerate();
+        }
     }
     
     public void restartGeneration() {
