@@ -60,6 +60,7 @@ public class gameUI extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Mushroom War Java Project");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mushroomwarjava/assets/mushroomWarIcon.gif")));
+        setMaximumSize(new java.awt.Dimension(1095, 610));
         setMinimumSize(new java.awt.Dimension(1095, 610));
         setResizable(false);
         setSize(new java.awt.Dimension(1095, 610));
@@ -261,6 +262,13 @@ public class gameUI extends javax.swing.JFrame {
             this.removeBlueUnit();
         } else {
             this.removeRedUnit(unit);
+        }
+    }
+    
+    public void endOfTheGame() {
+        new GameOver(this).setVisible(true);
+        for(House elem: this.housesOfGame) {
+            elem.destroyGeneration();
         }
     }
     
