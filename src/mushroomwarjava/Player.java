@@ -17,11 +17,11 @@ public class Player {
     
     public static int TEAM_RED = 0;
     public static int TEAM_BLUE = 1;
-    private final int team;
-    private final String name;
+    protected final int team;
+    protected final String name;
     
-    private List<House> houses;
-    private House selectedHouse;
+    protected List<House> houses;
+    protected House selectedHouse;
 
     public Player(int team, String name) {
         this.houses = new ArrayList<>();
