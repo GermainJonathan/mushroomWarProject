@@ -31,12 +31,9 @@ public class IA extends Thread {
         System.out.println("mushroomwarjava.IA.run()");
         while(this.bot.isAlive()) {
             System.out.println("IA is alive");
-            for(House elem: this.bot.getHouses()) {
-                System.out.println("IA have houses");
-                if(elem.getUnities().size() > 15) {
-                    System.out.println("bot want to attack with" + elem);
-                    this.bot.setHouseSelected(elem);
-                    this.attackNeighbor(elem);
+            for(House elem: this.UI.getHouses()) {
+                if(elem.getPlayer() == null) {
+                   System.out.println(elem + "can be attack"); 
                 }
             }            
         }

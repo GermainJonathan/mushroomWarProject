@@ -6,6 +6,8 @@
 package mushroomwarjava;
 
 import component.House;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -29,9 +31,24 @@ public class botIA extends Player {
     
     public boolean isAlive() {
         boolean alive = false;
-        if(this.getHouses().size() != 0) {
+        this.parseBotHouse();
+        if(this.houses.size() != 0) {
             alive = true;
         }
+        System.out.println(this.houses.size());
+        System.out.println(alive);
         return alive;
+    }
+    
+    public void parseBotHouse() {
+        this.houses.clear();
+        for(House elem: this.game.getHouses()) {
+            System.out.println(elem.getPlayer());
+            if(elem.getPlayer() != null) {
+                if(elem.getPlayer().getTeam() == this.getTeam()) {
+                    this.houses.add(elem);
+                }
+            }
+        }
     }
 }

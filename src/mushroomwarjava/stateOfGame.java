@@ -71,7 +71,8 @@ public class stateOfGame extends Thread {
             this.progressBar.refreshProgressBar(this.ratioHouse(), this.count);
         } while(!this.progressBar.isTwoPlayerAlive());
         System.out.println("Fin du jeu");
-        this.game.endOfTheGame();
+        int winner = this.progressBar.whoWin();
+        this.game.endOfTheGame(winner);
     }
     
 }

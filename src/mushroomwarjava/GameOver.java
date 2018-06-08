@@ -16,9 +16,14 @@ public class GameOver extends javax.swing.JFrame {
     /**
      * Creates new form GameOver
      */
-    public GameOver(gameUI oldGame) {
+    public GameOver(gameUI oldGame, int teamWiner) {
         initComponents();
         this.oldGame = oldGame;
+        if(teamWiner == Player.TEAM_BLUE) {
+            this.icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueWin.jpg")));
+        } else {
+            this.icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redWin.jpg")));
+        }
     }
 
     /**
@@ -31,10 +36,9 @@ public class GameOver extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
         replay = new javax.swing.JButton();
         quit = new javax.swing.JButton();
+        icon = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Partie terminé");
@@ -45,17 +49,11 @@ public class GameOver extends javax.swing.JFrame {
         setResizable(false);
         setSize(new java.awt.Dimension(700, 300));
 
-        jPanel1.setMaximumSize(new java.awt.Dimension(700, 100));
-        jPanel1.setMinimumSize(new java.awt.Dimension(700, 100));
-        jPanel1.setPreferredSize(new java.awt.Dimension(700, 200));
+        jPanel1.setMaximumSize(new java.awt.Dimension(700, 394));
+        jPanel1.setMinimumSize(new java.awt.Dimension(700, 394));
+        jPanel1.setPreferredSize(new java.awt.Dimension(700, 394));
         jPanel1.setRequestFocusEnabled(false);
         jPanel1.setLayout(null);
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 700, 200);
-
-        jPanel2.setMaximumSize(new java.awt.Dimension(700, 100));
-        jPanel2.setMinimumSize(new java.awt.Dimension(700, 100));
-        jPanel2.setPreferredSize(new java.awt.Dimension(700, 100));
 
         replay.setText("Rejouer");
         replay.addActionListener(new java.awt.event.ActionListener() {
@@ -63,6 +61,8 @@ public class GameOver extends javax.swing.JFrame {
                 replayActionPerformed(evt);
             }
         });
+        jPanel1.add(replay);
+        replay.setBounds(110, 220, 120, 40);
 
         quit.setText("Quitter");
         quit.addActionListener(new java.awt.event.ActionListener() {
@@ -70,41 +70,20 @@ public class GameOver extends javax.swing.JFrame {
                 quitActionPerformed(evt);
             }
         });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(130, 130, 130)
-                .addComponent(replay, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(quit, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(130, 130, 130))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(replay, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(quit, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(67, 67, 67))
-        );
+        jPanel1.add(quit);
+        quit.setBounds(500, 220, 120, 40);
+        jPanel1.add(icon);
+        icon.setBounds(0, 0, 700, 300);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -157,9 +136,8 @@ public class GameOver extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel icon;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JButton quit;
     private javax.swing.JButton replay;
     // End of variables declaration//GEN-END:variables

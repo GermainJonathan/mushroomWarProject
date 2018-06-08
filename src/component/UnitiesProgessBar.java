@@ -5,6 +5,8 @@
  */
 package component;
 
+import mushroomwarjava.Player;
+
 /**
  *
  * @author Jonathan Germain
@@ -36,6 +38,15 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
         return (this.blueUnit == 0 || this.redUnit == 0);
     }
 
+    public int whoWin() {
+        int winner = -1;
+        if(this.redUnit == 0) {
+            winner = Player.TEAM_BLUE;
+        } else {
+            winner = Player.TEAM_RED;
+        }
+        return winner;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

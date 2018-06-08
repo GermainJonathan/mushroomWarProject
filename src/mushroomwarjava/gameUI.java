@@ -265,8 +265,8 @@ public class gameUI extends javax.swing.JFrame {
         }
     }
     
-    public void endOfTheGame() {
-        new GameOver(this).setVisible(true);
+    public void endOfTheGame(int TeamWinner) {
+        new GameOver(this, TeamWinner).setVisible(true);
         for(House elem: this.housesOfGame) {
             elem.destroyGeneration();
         }
