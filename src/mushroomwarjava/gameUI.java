@@ -178,6 +178,7 @@ public class gameUI extends javax.swing.JFrame {
             this.bot = new botIA(Player.TEAM_RED, "IA", this);
             this.spawnBlue.setPlayer(this.actionPlayer);
             this.spawnRed.setPlayer(this.bot);
+            this.bot.intelligenceStart();
             for(int i = 0; i < 10; i++) {
                 this.spawnBlue.addUnit(new Unity(this.actionPlayer));
                 this.spawnRed.addUnit(new Unity(this.bot));
@@ -186,6 +187,7 @@ public class gameUI extends javax.swing.JFrame {
             this.bot = new botIA(Player.TEAM_BLUE, "IA", this);
             this.spawnRed.setPlayer(this.actionPlayer);
             this.spawnBlue.setPlayer(this.bot);
+            this.bot.intelligenceStart();
             for(int i = 0; i < 10; i++) {
                 this.spawnRed.addUnit(new Unity(this.actionPlayer));
                 this.spawnBlue.addUnit(new Unity(this.bot));
