@@ -31,7 +31,7 @@ public class IA extends Thread {
     public void run() {
         while(this.bot.isAlive()) {
             for(House elem: this.UI.getHouses()) {
-                if(elem.getPlayer() == null) {
+                if(elem.getPlayer() == null || elem.getPlayer() != this.bot) {
                    House sourceHouse = this.bot.houseCanAttack();
                    if(sourceHouse != null) {
                        this.attackNeighbor(sourceHouse, elem);

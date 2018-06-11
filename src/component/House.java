@@ -64,7 +64,6 @@ public class House extends javax.swing.JPanel {
             mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/redMushroom.png"))); // NOI18N
         }
         if(this.generation != null) {
-            System.out.println("Destruction du thread de la maison " + this.toString());
             this.destroyGeneration();
         }
         this.generation = new GenerateUnity(this, this.game);
@@ -210,7 +209,6 @@ public class House extends javax.swing.JPanel {
         // TODO add your handling code here:
         if(this.currentPlayer != null && this.game.getActionPlayer() == this.currentPlayer) {
             if(this.currentPlayer.getTeam() == Player.TEAM_BLUE) {
-                System.out.println(this.isSelected);
                 if(!this.isSelected) {
                     this.isSelected = true;
                     mushroom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/mushroomwarjava/assets/blueMushroomActive.png"))); // NOI18N
@@ -236,21 +234,8 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
-        if(evt.getButton() == 3) {
-            this.game.getActionPlayer().getSelectedHouse().destroyGeneration();
-            try {
-                for(int i = 0; i < this.game.getActionPlayer().getSelectedHouse().getUnities().size(); i++) {
-                   Point spawn;
-                   spawn = setRandomSpawn(this.game.getActionPlayer().getSelectedHouse());
-                   Unity elem = this.game.getActionPlayer().getSelectedHouse().getUnities().get(i);
-                   this.game.addUnitToGame(elem, spawn.x, spawn.y, this);
-               }
-            } catch(ConcurrentModificationException e) {
-                System.out.println(e.getMessage());
-            }
-            this.game.getActionPlayer().getSelectedHouse().getUnities().clear();
-            this.game.getActionPlayer().getSelectedHouse().refreshScore();
-            this.game.getActionPlayer().getSelectedHouse().restartGeneration();
+        if(evt.getButton() == 3 && this.game.getActionPlayer().getSelectedHouse() != this) {
+            this.isTarget(this.game.getActionPlayer().getSelectedHouse());
         }
     }//GEN-LAST:event_mushroomMousePressed
     // Variables declaration - do not modify//GEN-BEGIN:variables
