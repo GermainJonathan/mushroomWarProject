@@ -6,6 +6,7 @@
 package mushroomwarjava;
 
 import component.House;
+import java.awt.Point;
 
 /**
  *
@@ -22,18 +23,19 @@ public class IA extends Thread {
         this.bot = bot;
     }
 
-    private void attackNeighbor(House source) {
-        
+    private void attackNeighbor(House source, House target) {
+        target.isTarget(source);
     }
     
     @Override
     public void run() {
-        System.out.println("mushroomwarjava.IA.run()");
         while(this.bot.isAlive()) {
-            System.out.println("IA is alive");
             for(House elem: this.UI.getHouses()) {
                 if(elem.getPlayer() == null) {
-                   System.out.println(elem + "can be attack"); 
+                   House sourceHouse = this.bot.houseCanAttack();
+                   if(sourceHouse != null) {
+                       this.attackNeighbor(sourceHouse, elem);
+                   }
                 }
             }            
         }

@@ -22,11 +22,9 @@ public class botIA extends Player {
         super(team, name);
         this.game = game;
         this.intelligence = new IA(this, this.game);
-        this.intelligence.start();
     }
     
     public void attackInGame(House myHouse, House targetHouse) {
-        
     }
     
     public boolean isAlive() {
@@ -35,20 +33,30 @@ public class botIA extends Player {
         if(this.houses.size() != 0) {
             alive = true;
         }
-        System.out.println(this.houses.size());
-        System.out.println(alive);
         return alive;
     }
     
     public void parseBotHouse() {
         this.houses.clear();
         for(House elem: this.game.getHouses()) {
-            System.out.println(elem.getPlayer());
             if(elem.getPlayer() != null) {
                 if(elem.getPlayer().getTeam() == this.getTeam()) {
                     this.houses.add(elem);
                 }
             }
         }
+    }
+    
+    public void intelligenceStart() {
+        this.intelligence.start();
+    }
+    
+    public House houseCanAttack() {
+        for(House elem: this.houses) {
+            if(elem.getUnities().size() > 15) {
+                return elem;
+            }
+        }
+        return null;
     }
 }

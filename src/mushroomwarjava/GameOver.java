@@ -45,7 +45,6 @@ public class GameOver extends javax.swing.JFrame {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/mushroomwarjava/assets/mushroomWarIcon.gif")));
         setMaximumSize(new java.awt.Dimension(700, 300));
         setMinimumSize(new java.awt.Dimension(700, 300));
-        setPreferredSize(new java.awt.Dimension(700, 300));
         setResizable(false);
         setSize(new java.awt.Dimension(700, 300));
 
@@ -79,7 +78,7 @@ public class GameOver extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 700, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,7 +96,7 @@ public class GameOver extends javax.swing.JFrame {
     }//GEN-LAST:event_replayActionPerformed
 
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
-        System.exit(EXIT_ON_CLOSE);
+        System.exit(-1);
     }//GEN-LAST:event_quitActionPerformed
 
     /**

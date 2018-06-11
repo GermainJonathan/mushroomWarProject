@@ -110,8 +110,8 @@ public class House extends javax.swing.JPanel {
         this.generation.restartGenerate();
     }
     
-    public Point setRandomSpawn() {
-        Point spawn = new Point((this.game.getActionPlayer().getSelectedHouse().getLocation().x + 30), (this.game.getActionPlayer().getSelectedHouse().getLocation().y + 60));
+    public Point setRandomSpawn(House source) {
+        Point spawn = new Point((source.getLocation().x + 30), (source.getLocation().y + 60));
         Random rdm = new Random();
         double angleRad = rdm.nextDouble() * (Math.PI * 2);
         double x = (spawn.x + 30 * Math.cos(angleRad));
@@ -143,6 +143,23 @@ public class House extends javax.swing.JPanel {
     public void setBounds(int x, int y, int width, int height){
         super.setBounds(x, y, width, height);
         this.hitBox = new Circle(this.getX(), this.getY(), this.getWidth());
+    }
+    
+    public void isTarget(House source) {
+        source.destroyGeneration();
+        try {
+            for(int i = 0; i < source.getUnities().size(); i++) {
+               Point spawn;
+               spawn = setRandomSpawn(source);
+               Unity elem = source.getUnities().get(i);
+               this.game.addUnitToGame(elem, spawn.x, spawn.y, this);
+           }
+        } catch(ConcurrentModificationException e) {
+            System.out.println(e.getMessage());
+        }
+        source.getUnities().clear();
+        source.refreshScore();
+        source.restartGeneration();
     }
     
     /**
@@ -219,24 +236,20 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
-        boolean tryPass = false;
         if(evt.getButton() == 3) {
             this.game.getActionPlayer().getSelectedHouse().destroyGeneration();
             try {
                 for(int i = 0; i < this.game.getActionPlayer().getSelectedHouse().getUnities().size(); i++) {
                    Point spawn;
-                   spawn = setRandomSpawn();
+                   spawn = setRandomSpawn(this.game.getActionPlayer().getSelectedHouse());
                    Unity elem = this.game.getActionPlayer().getSelectedHouse().getUnities().get(i);
                    this.game.addUnitToGame(elem, spawn.x, spawn.y, this);
                }
-                tryPass = true;
             } catch(ConcurrentModificationException e) {
                 System.out.println(e.getMessage());
             }
-            if(tryPass) {
-                this.game.getActionPlayer().getSelectedHouse().getUnities().clear();
-                this.game.getActionPlayer().getSelectedHouse().refreshScore();
-            }
+            this.game.getActionPlayer().getSelectedHouse().getUnities().clear();
+            this.game.getActionPlayer().getSelectedHouse().refreshScore();
             this.game.getActionPlayer().getSelectedHouse().restartGeneration();
         }
     }//GEN-LAST:event_mushroomMousePressed
