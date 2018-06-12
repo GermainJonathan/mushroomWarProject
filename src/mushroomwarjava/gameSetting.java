@@ -54,7 +54,7 @@ public class gameSetting extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Choisit ton équipe !");
+        jLabel1.setText("Choisis ton équipe !");
 
         radioTeam.add(redTeam);
         redTeam.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
