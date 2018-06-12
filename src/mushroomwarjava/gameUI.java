@@ -9,8 +9,15 @@ import component.House;
 import component.Unity;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -23,6 +30,7 @@ public class gameUI extends javax.swing.JFrame {
     private List<House> housesOfGame;
     private List<Unity> redUnit;
     private List<Unity> blueUnit;
+    private List<targetHouse> threadVector;
     private Player actionPlayer;
     private botIA bot;
     private targetHouse targetAttack;
@@ -48,7 +56,7 @@ public class gameUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
-        Quitter = new javax.swing.JButton();
+        backToMenu = new javax.swing.JButton();
         Continuer = new javax.swing.JButton();
         Sauvegarder = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -87,14 +95,14 @@ public class gameUI extends javax.swing.JFrame {
         Menu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 204, 0), 3, true));
         Menu.setLayout(null);
 
-        Quitter.setText("Quitter");
-        Quitter.addActionListener(new java.awt.event.ActionListener() {
+        backToMenu.setText("Revenir au menu");
+        backToMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                QuitterActionPerformed(evt);
+                backToMenuActionPerformed(evt);
             }
         });
-        Menu.add(Quitter);
-        Quitter.setBounds(50, 210, 140, 40);
+        Menu.add(backToMenu);
+        backToMenu.setBounds(50, 210, 140, 40);
 
         Continuer.setText("Continuer");
         Continuer.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +114,11 @@ public class gameUI extends javax.swing.JFrame {
         Continuer.setBounds(50, 90, 140, 40);
 
         Sauvegarder.setText("Sauvegarder");
+        Sauvegarder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SauvegarderActionPerformed(evt);
+            }
+        });
         Menu.add(Sauvegarder);
         Sauvegarder.setBounds(50, 150, 140, 40);
 
@@ -168,18 +181,51 @@ public class gameUI extends javax.swing.JFrame {
 
     private void ContinuerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContinuerActionPerformed
         this.Menu.setVisible(false);
+        for(House elem: this.housesOfGame) {
+            elem.pauseGeneration();
+        }
+        for(targetHouse elem: this.threadVector) {
+            elem.continueMove();
+        }
+        this.bot.restartIntelligence();
+        this.requestFocus();
     }//GEN-LAST:event_ContinuerActionPerformed
 
-    private void QuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitterActionPerformed
-        System.exit(-1);
-    }//GEN-LAST:event_QuitterActionPerformed
+    private void backToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToMenuActionPerformed
+        this.Menu.setVisible(false);
+        this.setVisible(false);
+        new mushroomUI().setVisible(true);
+        this.progressGame.stopGame();
+    }//GEN-LAST:event_backToMenuActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        System.out.println(evt.getKeyCode());
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
             this.Menu.setVisible(true);
+            for(House elem: this.housesOfGame) {
+                elem.destroyGeneration();
+            }
+            for(targetHouse elem: this.threadVector) {
+                elem.pauseMove();
+            }
+            this.bot.intelligencePause();
         }
     }//GEN-LAST:event_formKeyPressed
+
+    private void SauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SauvegarderActionPerformed
+        File f = new File("test.save");
+        FileOutputStream fis = null;
+        try {
+            fis = new FileOutputStream(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(gameUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            ObjectOutputStream ois = new ObjectOutputStream(fis);
+            ois.writeObject(this);
+        } catch (IOException ex) {
+            Logger.getLogger(gameUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_SauvegarderActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,7 +254,6 @@ public class gameUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new gameUI().setVisible(true);
-                
             }
         });
     }
@@ -270,6 +315,7 @@ public class gameUI extends javax.swing.JFrame {
     
     private void goToAttackedHouse(Unity unit, House target) {
         this.targetAttack = new targetHouse(this.jPanel1, unit, target);
+        this.threadVector.add(targetAttack);
         this.targetAttack.start();
     }
     
@@ -277,6 +323,7 @@ public class gameUI extends javax.swing.JFrame {
         this.housesOfGame = new ArrayList<>();
         this.blueUnit = new ArrayList<>();
         this.redUnit = new ArrayList<>();
+        this.threadVector = new ArrayList<>();
         this.housesOfGame.add(house1);
         this.housesOfGame.add(house2);
         this.housesOfGame.add(house3);
@@ -308,7 +355,7 @@ public class gameUI extends javax.swing.JFrame {
         this.redUnit.add(redUnit);
     }
     
-    private void removeRedUnit(Unity unit) {
+    private void removeRedUnit() {
         this.redUnit.remove(this.redUnit.size()-1);
     }
  
@@ -324,7 +371,7 @@ public class gameUI extends javax.swing.JFrame {
         if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
             this.removeBlueUnit();
         } else {
-            this.removeRedUnit(unit);
+            this.removeRedUnit();
         }
     }
     
@@ -338,8 +385,8 @@ public class gameUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Continuer;
     private javax.swing.JPanel Menu;
-    private javax.swing.JButton Quitter;
     private javax.swing.JButton Sauvegarder;
+    private javax.swing.JButton backToMenu;
     private component.House house1;
     private component.House house2;
     private component.House house3;
@@ -354,4 +401,5 @@ public class gameUI extends javax.swing.JFrame {
     private component.House spawnRed;
     private component.UnitiesProgessBar unitiesProgessBar1;
     // End of variables declaration//GEN-END:variables
+
 }

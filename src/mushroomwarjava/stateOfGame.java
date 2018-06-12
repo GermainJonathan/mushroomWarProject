@@ -22,11 +22,13 @@ public class stateOfGame extends Thread {
     private UnitiesProgessBar progressBar;
     private List<House> redHouses;
     private List<House> blueHouse;
+    private boolean forceFinish;
     private int count;
     
     
     public stateOfGame(gameUI game, UnitiesProgessBar progressBar) {
         this.game = game;
+        this.forceFinish = false;
         this.progressBar = progressBar;
         this.redHouses = new ArrayList<>();
         this.blueHouse = new ArrayList<>();
@@ -69,10 +71,16 @@ public class stateOfGame extends Thread {
                 }
             }
             this.progressBar.refreshProgressBar(this.ratioHouse(), this.count);
-        } while(!this.progressBar.isTwoPlayerAlive());
+        } while(!this.progressBar.isTwoPlayerAlive() || this.forceFinish);
         System.out.println("Fin du jeu");
-        int winner = this.progressBar.whoWin();
-        this.game.endOfTheGame(winner);
+        if(!this.forceFinish) {
+            int winner = this.progressBar.whoWin();
+            this.game.endOfTheGame(winner);
+        }
+    }
+    
+    public void stopGame() {
+        this.forceFinish = true;
     }
     
 }
