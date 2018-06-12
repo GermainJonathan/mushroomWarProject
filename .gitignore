@@ -17,3 +17,5 @@
 *.zip
 *.tar.gz
 *.rar
+
+/dist/

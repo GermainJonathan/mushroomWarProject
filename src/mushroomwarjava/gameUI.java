@@ -8,6 +8,7 @@ package mushroomwarjava;
 import component.House;
 import component.Unity;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JPanel;
@@ -33,6 +34,7 @@ public class gameUI extends javax.swing.JFrame {
     public gameUI() {
         initComponents();
         initGame();
+        this.Menu.setVisible(false);
     }
 
     /**
@@ -45,6 +47,11 @@ public class gameUI extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        Menu = new javax.swing.JPanel();
+        Quitter = new javax.swing.JButton();
+        Continuer = new javax.swing.JButton();
+        Sauvegarder = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         unitiesProgessBar1 = new component.UnitiesProgessBar();
         spawnBlue = new component.House();
         spawnRed = new component.House();
@@ -64,6 +71,11 @@ public class gameUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1095, 610));
         setResizable(false);
         setSize(new java.awt.Dimension(1095, 610));
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
 
         jPanel1.setAlignmentX(0.0F);
         jPanel1.setAlignmentY(0.0F);
@@ -71,6 +83,40 @@ public class gameUI extends javax.swing.JFrame {
         jPanel1.setMaximumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setMinimumSize(new java.awt.Dimension(1095, 610));
         jPanel1.setLayout(null);
+
+        Menu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 204, 0), 3, true));
+        Menu.setLayout(null);
+
+        Quitter.setText("Quitter");
+        Quitter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QuitterActionPerformed(evt);
+            }
+        });
+        Menu.add(Quitter);
+        Quitter.setBounds(50, 210, 140, 40);
+
+        Continuer.setText("Continuer");
+        Continuer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ContinuerActionPerformed(evt);
+            }
+        });
+        Menu.add(Continuer);
+        Continuer.setBounds(50, 90, 140, 40);
+
+        Sauvegarder.setText("Sauvegarder");
+        Menu.add(Sauvegarder);
+        Sauvegarder.setBounds(50, 150, 140, 40);
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Pause");
+        Menu.add(jLabel1);
+        jLabel1.setBounds(0, 20, 230, 30);
+
+        jPanel1.add(Menu);
+        Menu.setBounds(440, 150, 230, 310);
 
         unitiesProgessBar1.setColor1(java.awt.Color.blue);
         unitiesProgessBar1.setColor2(java.awt.Color.red);
@@ -119,6 +165,21 @@ public class gameUI extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void ContinuerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContinuerActionPerformed
+        this.Menu.setVisible(false);
+    }//GEN-LAST:event_ContinuerActionPerformed
+
+    private void QuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitterActionPerformed
+        System.exit(-1);
+    }//GEN-LAST:event_QuitterActionPerformed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        System.out.println(evt.getKeyCode());
+        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            this.Menu.setVisible(true);
+        }
+    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -275,6 +336,10 @@ public class gameUI extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Continuer;
+    private javax.swing.JPanel Menu;
+    private javax.swing.JButton Quitter;
+    private javax.swing.JButton Sauvegarder;
     private component.House house1;
     private component.House house2;
     private component.House house3;
@@ -282,6 +347,7 @@ public class gameUI extends javax.swing.JFrame {
     private component.House house5;
     private component.House house6;
     private component.House house7;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel map;
     private component.House spawnBlue;
