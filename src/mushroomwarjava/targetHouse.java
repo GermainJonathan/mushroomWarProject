@@ -15,16 +15,18 @@ import vectormove.Vector;
 
 public class targetHouse extends Thread implements EvtMove{
 
+   public int id;
    private Unity unit;
    private House target;
    private JPanel map;
    public Movement move;
    private Point destination;
    
-   public targetHouse(JPanel map, Unity unit, House target) {
+   public targetHouse(JPanel map, Unity unit, House target, int id) {
        this.unit = unit;
        this.target = target;
        this.map = map;
+       this.id = id;
    }
    
    @Override
@@ -55,7 +57,7 @@ public class targetHouse extends Thread implements EvtMove{
 
    @Override
    public void evtFinishMove(Movement m) {
-       this.target.isAttackBy(this.unit);
+       this.target.isAttackBy(this.unit, this.id);
    }
 
    @Override

@@ -12,6 +12,7 @@ package mushroomwarjava;
 public class MushroomWarJava {
 
     /**
+     * Class de départ du programme
      * @param args the command line arguments
      */
     public static void main(String[] args) {
@@ -25,6 +26,7 @@ public class MushroomWarJava {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(gameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        // Ici on crée la première fenêtre du jeu et l'affiche
         new mushroomUI().setVisible(true);
     }
     

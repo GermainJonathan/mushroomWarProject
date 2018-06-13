@@ -14,7 +14,8 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 
 /**
- *
+ * Menu principal de mushroomWar
+ * 
  * @author Jonathan Germain
  */
 public class mushroomUI extends javax.swing.JFrame {
@@ -24,9 +25,8 @@ public class mushroomUI extends javax.swing.JFrame {
      * Creates new form mushroomUI
      */
     public mushroomUI() {
-        System.out.println(this.icon.getIconWidth());
-        this.setIconImage(this.icon.getImage());
-        initComponents();
+        this.setIconImage(this.icon.getImage());    // On configure l'icône de la fenêtre ici
+        initComponents();   // Initialisation des composants de la fenêtre ( genéré par NetBeans )
     }
 
     /**
@@ -131,25 +131,25 @@ public class mushroomUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Evenement au click sur le bouton "Jouer"
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new gameSetting().setVisible(true);
+        this.setVisible(false); // On cache la fenêtre du menu principal
+        new gameSetting().setVisible(true); // création de la fenêtre de configuration de la partie
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    // Evenement au click sur le bouton "Quitter"
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        System.exit(0);
+        System.exit(0); // Fin du programme avec le code 0
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    // Evenement au click sur le bouton "Aide"
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        this.setVisible(false);
-        new helpPage().setVisible(true);
+        this.setVisible(false); // On cache la fenêtre du menu principal
+        new helpPage().setVisible(true);    // création de la fenêtre de configuration de la partie
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    // Evenement "bonus" Ouverture du site du VRAI jeu lors du click sur la banière
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
         URI uri = URI.create("https://mushroomwars2.com/");
         try {
             Desktop.getDesktop().browse(uri);
@@ -157,41 +157,6 @@ public class mushroomUI extends javax.swing.JFrame {
             Logger.getLogger(mushroomUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel1MouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(mushroomUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(mushroomUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(mushroomUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(mushroomUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new mushroomUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
