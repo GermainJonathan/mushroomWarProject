@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Gestion du déroulement du jeu
  * @author jgermain
  */
 public class stateOfGame extends Thread {
