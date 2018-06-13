@@ -16,9 +16,10 @@ public class IA extends Thread {
     
     private botIA bot;
     private gameUI UI;
-    private IA intelligence;
+    private boolean activeIA;
     
     public IA(botIA bot, gameUI game) {
+        this.activeIA = true;
         this.UI = game;
         this.bot = bot;
     }
@@ -27,9 +28,13 @@ public class IA extends Thread {
         target.isTarget(source);
     }
     
+    public void stopIA(){
+        this.activeIA = false;
+    }
+    
     @Override
     public void run() {
-        while(this.bot.isAlive()) {
+        while(this.bot.isAlive() && this.activeIA) {
             for(House elem: this.UI.getHouses()) {
                 if(elem.getPlayer() == null || elem.getPlayer() != this.bot) {
                    House sourceHouse = this.bot.houseCanAttack();

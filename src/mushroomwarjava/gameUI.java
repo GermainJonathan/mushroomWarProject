@@ -9,32 +9,82 @@ import component.House;
 import component.Unity;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
- *
+ * Fenêtre du jeu
+ * 
  * @author Jonathan Germain
  */
 public class gameUI extends javax.swing.JFrame {
     
+    /*
+    * Constante indiquant le nombre d'unité maximum qui peuvent être présent dans la partie au même moment
+    */
     public static int MAX_UNITIES_SPAWNABLE = 300;
+    
+    /**
+     * Liste des Maisons de la carte
+     */
     private List<House> housesOfGame;
+    
+    /**
+     * Liste des unitées rouge active en dehors de Maison ( en train d'attaquer ) 
+     */
     private List<Unity> redUnit;
+    
+    /**
+     * Liste des unitées bleu active en dehors de Maison ( en train d'attaquer ) 
+     */
     private List<Unity> blueUnit;
+    
+    /**
+     * Liste des thread de mouvement actif
+     */
+    private List<targetHouse> threadVector;
+    
+    /**
+     * Joueur
+     */
     private Player actionPlayer;
+    
+    /**
+     * Intelligence Artificiel de la partie
+     */
     private botIA bot;
+    
+    /**
+     * thread courant de déplacement d'une unité
+     */
     private targetHouse targetAttack;
+    
+    /**
+     * Thread gérant le déroulement de la partit et la progression de la bar d'état
+     */
     private stateOfGame progressGame;
+    
+    /**
+     * Compteur de thread de mouvement
+     */
+    private int threadId = 0;
     
     /**
      * Creates new form gameUI
      */
     public gameUI() {
-        initComponents();
-        initGame();
-        this.Menu.setVisible(false);
+        initComponents();   // Initialisation des composants graphique ( Genéré par NetBeans )
+        initGame(); // On intialise le jeu avec les joueurs actif, le bot et on instancie les maisons
+        this.Menu.setVisible(false);    // On cache le menu du jeu
     }
 
     /**
@@ -48,7 +98,7 @@ public class gameUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         Menu = new javax.swing.JPanel();
-        Quitter = new javax.swing.JButton();
+        backToMenu = new javax.swing.JButton();
         Continuer = new javax.swing.JButton();
         Sauvegarder = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -87,14 +137,14 @@ public class gameUI extends javax.swing.JFrame {
         Menu.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 204, 0), 3, true));
         Menu.setLayout(null);
 
-        Quitter.setText("Quitter");
-        Quitter.addActionListener(new java.awt.event.ActionListener() {
+        backToMenu.setText("Revenir au menu");
+        backToMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                QuitterActionPerformed(evt);
+                backToMenuActionPerformed(evt);
             }
         });
-        Menu.add(Quitter);
-        Quitter.setBounds(50, 210, 140, 40);
+        Menu.add(backToMenu);
+        backToMenu.setBounds(50, 210, 140, 40);
 
         Continuer.setText("Continuer");
         Continuer.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +156,11 @@ public class gameUI extends javax.swing.JFrame {
         Continuer.setBounds(50, 90, 140, 40);
 
         Sauvegarder.setText("Sauvegarder");
+        Sauvegarder.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SauvegarderActionPerformed(evt);
+            }
+        });
         Menu.add(Sauvegarder);
         Sauvegarder.setBounds(50, 150, 140, 40);
 
@@ -166,80 +221,133 @@ public class gameUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Evenement lors du click sur le bouton Continuer du menu Pause
     private void ContinuerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContinuerActionPerformed
-        this.Menu.setVisible(false);
+        this.Menu.setVisible(false); // on cache le menu
+        /**
+         * Redemarrage de la génération d'unité par les maisons active
+         */
+        for(House elem: this.housesOfGame) {
+            elem.pauseGeneration();
+        }
+        /**
+         * Redemarrage des mouvements des unitiées
+         */
+        for(targetHouse elem: this.threadVector) {
+            elem.continueMove();
+        }
+        this.bot.restartIntelligence(); // On redemarre le BOT
+        this.requestFocus();    // On rends le focus au JEU ( permet de refaire pause si besoin ) 
     }//GEN-LAST:event_ContinuerActionPerformed
 
-    private void QuitterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QuitterActionPerformed
-        System.exit(-1);
-    }//GEN-LAST:event_QuitterActionPerformed
+    // Evenement lors du click sur "Revenir au menu du jeu"
+    private void backToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToMenuActionPerformed
+        this.Menu.setVisible(false); // on cache le menu
+        this.setVisible(false); // on cache cette instance du jeu
+        new mushroomUI().setVisible(true);  // on retourne au menu principal
+        this.progressGame.stopGame(); // on arrete la progression de la partie
+    }//GEN-LAST:event_backToMenuActionPerformed
 
+    // Controleur permettant l'ouverture du menu pause
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        System.out.println(evt.getKeyCode());
-        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) { // lors de l'appuie sur ESC
+            /**
+             * On arrête tous les threads en cours
+             */
+            for(targetHouse elem: this.threadVector) {
+                elem.pauseMove();
+            }
+            for(House elem: this.housesOfGame) {
+                elem.destroyGeneration();
+            }
             this.Menu.setVisible(true);
+            jPanel1.setComponentZOrder(this.Menu, 0); // on place le menu au premier plan
+            this.bot.intelligencePause();
         }
     }//GEN-LAST:event_formKeyPressed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    // TODO: Evenement lors du click sur le bouton Sauvegarder
+    private void SauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SauvegarderActionPerformed
+        File f = new File("test.save");
+        FileOutputStream fis = null;
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(gameUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            fis = new FileOutputStream(f);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(gameUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new gameUI().setVisible(true);
-                
-            }
-        });
+        try {
+            ObjectOutputStream ois = new ObjectOutputStream(fis);
+            ois.writeBytes("Test de sauvegarde");
+            ois.close();
+            fis.close();
+        } catch (IOException ex) {
+            Logger.getLogger(gameUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_SauvegarderActionPerformed
+    
+    /**
+     * Générateur d'id de thread de mouvement
+     * @return l'id a attribuer au Thread
+     */
+    public int getId() {
+        return this.threadId++;
     }
 
+    /**
+     * Assignation du joueur
+     * @param playable 
+     */
     public void setActionPlayer(Player playable) {
         this.actionPlayer = playable;
         this.chooseSpawn();
     }
     
+    /**
+     * Getter du joueur de la partie
+     * @return 
+     */
     public Player getActionPlayer() {
         return this.actionPlayer;
     }
     
+    /**
+     * Retourne la liste des maisons de la partie
+     * @return 
+     */
     public List<House> getHouses() {
         return this.housesOfGame;
     }
     
+    /**
+     * Retourne les élements graphique du jeu
+     * Permet de supprimer une unité de l'affichage du jeu
+     * @return 
+     */
     public JPanel getActiveStateGame() {
         return this.jPanel1;
     }
     
+    /**
+     * Démarrage de la partie
+     * Lancement des thread
+     */
     public void gameBegin() {
         this.progressGame.start();
     }
     
+    /**
+     * Permet l'initialisation du jeu
+     * On assigne les spawns au différent participant suivant la configuration du jeu
+     */
     private void chooseSpawn() {
         if(this.actionPlayer.getTeam() == Player.TEAM_BLUE) {
             this.bot = new botIA(Player.TEAM_RED, "IA", this);
             this.spawnBlue.setPlayer(this.actionPlayer);
             this.spawnRed.setPlayer(this.bot);
             this.bot.intelligenceStart();
+            /**
+             * Démmarage de la partie avec 10 unitées chacun
+             */
             for(int i = 0; i < 10; i++) {
                 this.spawnBlue.addUnit(new Unity(this.actionPlayer));
                 this.spawnRed.addUnit(new Unity(this.bot));
@@ -249,6 +357,9 @@ public class gameUI extends javax.swing.JFrame {
             this.spawnRed.setPlayer(this.actionPlayer);
             this.spawnBlue.setPlayer(this.bot);
             this.bot.intelligenceStart();
+            /**
+             * Démmarage de la partie avec 10 unitées chacun
+             */
             for(int i = 0; i < 10; i++) {
                 this.spawnRed.addUnit(new Unity(this.actionPlayer));
                 this.spawnBlue.addUnit(new Unity(this.bot));
@@ -256,6 +367,13 @@ public class gameUI extends javax.swing.JFrame {
         }
     }
     
+    /**
+     * Ajoute une untié à la partie et lance un thread de mouvement vers la maison ciblé
+     * @param unit
+     * @param x
+     * @param y
+     * @param target 
+     */
     public void addUnitToGame(Unity unit, int x, int y, House target) {
         if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
             this.setBlueUnit(unit);
@@ -268,15 +386,25 @@ public class gameUI extends javax.swing.JFrame {
         this.goToAttackedHouse(unit, target);
     }
     
+    /**
+     * Lancement du thread de mouvement d'une unité vers une cible
+     * @param unit
+     * @param target 
+     */
     private void goToAttackedHouse(Unity unit, House target) {
-        this.targetAttack = new targetHouse(this.jPanel1, unit, target);
+        this.targetAttack = new targetHouse(this.jPanel1, unit, target, this.getId());
+        this.threadVector.add(targetAttack);
         this.targetAttack.start();
     }
     
+    /**
+     * Initialisation du jeu
+     */
     private void initGame() {
         this.housesOfGame = new ArrayList<>();
         this.blueUnit = new ArrayList<>();
         this.redUnit = new ArrayList<>();
+        this.threadVector = new ArrayList<>();
         this.housesOfGame.add(house1);
         this.housesOfGame.add(house2);
         this.housesOfGame.add(house3);
@@ -292,42 +420,96 @@ public class gameUI extends javax.swing.JFrame {
         this.progressGame = new stateOfGame(this, unitiesProgessBar1);
     } 
         
+    /**
+     * Retourne le nombre d'unité encore en jeu mais non rattaché à une maison
+     * @return 
+     */
     public int getCountUnitiesOfTheGame() {
         return (this.blueUnit.size() + this.redUnit.size());
     }
     
+    /**
+     * Retourne le nombre d'unité bleu active
+     * @return 
+     */
     public int getBlueUnities() {
         return this.blueUnit.size();
     }
     
+    /**
+     * Retourne le nombre d'unité rouge active
+     * @return 
+     */
     public int getRedUnities() {
         return this.redUnit.size();
     }
 
+    /**
+     * Permet d'ajouter une unité rouge à la liste
+     * @param redUnit 
+     */
     public void setRedUnit(Unity redUnit) {
         this.redUnit.add(redUnit);
     }
     
-    private void removeRedUnit(Unity unit) {
-        this.redUnit.remove(this.redUnit.size()-1);
+    /**
+     * Supprime une unité de la liste rouge
+     */
+    private void removeRedUnit() {
+        if(this.redUnit.size() != 0) {
+            this.redUnit.remove(this.redUnit.size()-1);
+        }
     }
  
+    /**
+     *  Permet d'ajouter une unité bleu à la liste
+     * @param blueUnit 
+     */
     public void setBlueUnit(Unity blueUnit) {
         this.blueUnit.add(blueUnit);
     }
     
+    /**
+     * Supprime une unité de la liste bleu
+     */
     private void removeBlueUnit() {
-        this.blueUnit.remove(this.blueUnit.size()-1);
+        if(this.blueUnit.size() != 0) {
+            this.blueUnit.remove(this.blueUnit.size()-1);
+        }
     }
     
+    /**
+     * gestion de la suppression d'unitées
+     * @param unit 
+     */
     public void removeFromUnitList(Unity unit) {
         if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
             this.removeBlueUnit();
         } else {
-            this.removeRedUnit(unit);
+            this.removeRedUnit();
         }
     }
     
+    /**
+     * Gestion de la suppression des threads
+     * Permet de mettre le jeu en pause
+     * @param id 
+     */
+    public void removeFromThreadList(int id) {
+        Iterator<targetHouse> iter = this.threadVector.iterator();    
+        while (iter.hasNext()) {
+            targetHouse str = iter.next();
+            if(str.id == id) {
+                iter.remove();
+            }
+        }
+    }
+    
+    /**
+     * Fin du jeu
+     * Création de la scene associée et affichage du score
+     * @param TeamWinner 
+     */
     public void endOfTheGame(int TeamWinner) {
         new GameOver(this, TeamWinner).setVisible(true);
         for(House elem: this.housesOfGame) {
@@ -338,8 +520,8 @@ public class gameUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Continuer;
     private javax.swing.JPanel Menu;
-    private javax.swing.JButton Quitter;
     private javax.swing.JButton Sauvegarder;
+    private javax.swing.JButton backToMenu;
     private component.House house1;
     private component.House house2;
     private component.House house3;
@@ -354,4 +536,5 @@ public class gameUI extends javax.swing.JFrame {
     private component.House spawnRed;
     private component.UnitiesProgessBar unitiesProgessBar1;
     // End of variables declaration//GEN-END:variables
+
 }

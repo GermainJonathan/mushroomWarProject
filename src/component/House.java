@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mushroomwarjava.Circle;
 import mushroomwarjava.GenerateUnity;
 import mushroomwarjava.Player;
@@ -106,7 +108,16 @@ public class House extends javax.swing.JPanel {
     }
     
     public void restartGeneration() {
-        this.generation.restartGenerate();
+        if(this.generation != null) {
+            this.generation.restartGenerate();
+        }            
+    }
+    
+    public void pauseGeneration() {
+        if(this.generation != null) {
+            this.generation = new GenerateUnity(this, this.game);
+            this.generation.start();            
+        }
     }
     
     public Point setRandomSpawn(House source) {
@@ -119,7 +130,7 @@ public class House extends javax.swing.JPanel {
         return spawn;
     }
     
-    public void isAttackBy(Unity unit) {       
+    public void isAttackBy(Unity unit, int id) {       
         if(this.unities.size() == 0) {
             this.setPlayer(unit.getPlayer());
         }
@@ -127,6 +138,7 @@ public class House extends javax.swing.JPanel {
         unit.setVisible(false);
         this.game.getActiveStateGame().remove(unit); // suppression de l'entité
         this.game.removeFromUnitList(unit);
+        this.game.removeFromThreadList(id);
     }
     
     public void unSelectHouse() {
@@ -234,7 +246,7 @@ public class House extends javax.swing.JPanel {
 
     private void mushroomMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mushroomMousePressed
         // TODO add your handling code here:
-        if(evt.getButton() == 3 && this.game.getActionPlayer().getSelectedHouse() != this) {
+        if(evt.getButton() == 3 && this.game.getActionPlayer().getSelectedHouse() != this && this.game.getActionPlayer().getSelectedHouse() != null) {
             this.isTarget(this.game.getActionPlayer().getSelectedHouse());
         }
     }//GEN-LAST:event_mushroomMousePressed

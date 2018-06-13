@@ -15,22 +15,38 @@ import vectormove.Vector;
 
 public class targetHouse extends Thread implements EvtMove{
 
+   public int id;
    private Unity unit;
    private House target;
    private JPanel map;
+   public Movement move;
+   private Point destination;
    
-   public targetHouse(JPanel map, Unity unit, House target) {
+   public targetHouse(JPanel map, Unity unit, House target, int id) {
        this.unit = unit;
        this.target = target;
        this.map = map;
+       this.id = id;
    }
    
    @Override
    public void run() {
-       int x = target.getLocation().x + (target.getWidth()/2) - (unit.getWidth()/2);
-       int y = (target.getLocation().y + (target.getHeight()/2) - (unit.getHeight()/2)) + 35;
-       Point destination = new Point(x, y);
-       Movement.move(map, unit, new Vector(unit.getLocation(), destination), 10, this);
+        int x = target.getLocation().x + (target.getWidth()/2) - (unit.getWidth()/2);
+        int y = (target.getLocation().y + (target.getHeight()/2) - (unit.getHeight()/2)) + 35;
+        this.destination = new Point(x, y);
+        this.move = new Movement(this.map, this.unit, new Vector(unit.getLocation(), this.destination), 10);
+        this.move.addListener(this);
+        this.move.startMovement();
+   }
+   
+   public void pauseMove() {
+       this.move.pauseMovement();
+   }
+   
+   public void continueMove() {
+        this.move = new Movement(this.map, this.unit, new Vector(unit.getLocation(), this.destination), 10);
+        this.move.addListener(this);
+        this.move.startMovement();
    }
 
    @Override
@@ -41,7 +57,7 @@ public class targetHouse extends Thread implements EvtMove{
 
    @Override
    public void evtFinishMove(Movement m) {
-       this.target.isAttackBy(this.unit);
+       this.target.isAttackBy(this.unit, this.id);
    }
 
    @Override

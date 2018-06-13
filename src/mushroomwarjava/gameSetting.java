@@ -8,12 +8,20 @@ package mushroomwarjava;
 import java.awt.Toolkit;
 
 /**
- *
+ * Fenêtre de configuration de la partie
+ * 
  * @author Jonathan
  */
 public class gameSetting extends javax.swing.JFrame {
 
+    /**
+     * Instance de la partie
+     */
     private gameUI game;
+    
+    /**
+     * Equipe selectionner par le joueur
+     */
     private int teamSelected;
     
     /**
@@ -153,33 +161,40 @@ public class gameSetting extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    // Evenement lors du click sur Start
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
-        // TODO add your handling code here:
-        this.game = new gameUI();
-        this.game.setActionPlayer(new Player(this.teamSelected, nameSelection.getText()));
-        this.setVisible(false);
-        this.game.setVisible(true);
-        this.game.gameBegin();
+        this.game = new gameUI(); // Création d'une partie
+        this.game.setActionPlayer(new Player(this.teamSelected, nameSelection.getText()));  // Préparation de la partie
+        this.setVisible(false); // On cache la fenêtre de configuration
+        this.game.setVisible(true); // On affiche le jeu
+        this.game.gameBegin();  // On lance la partie ( permet nottament de gérer les différents threads dont l'IA )
     }//GEN-LAST:event_StartActionPerformed
 
+    // Evenement lors du click sur le champignon Bleu ( choix de l'équipe )
     private void blueTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueTeamActionPerformed
-        // TODO add your handling code here:
-        this.teamSelected = Player.TEAM_BLUE;
-        this.isDisabled();
+        this.teamSelected = Player.TEAM_BLUE;   // on choisit l'équipe bleu
+        this.isDisabled();  // Verification des conditions
     }//GEN-LAST:event_blueTeamActionPerformed
 
+    // Evenement lors du click sur le champignon Rouge
     private void redTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redTeamActionPerformed
-        // TODO add your handling code here:
-        this.teamSelected = Player.TEAM_RED;
-        this.isDisabled();
+        this.teamSelected = Player.TEAM_RED;    // on choisit l'équipe rouge
+        this.isDisabled();  // Verification des conditions
     }//GEN-LAST:event_redTeamActionPerformed
 
+    // Evenement lors de la saisie clavier du nom
     private void nameSelectionCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_nameSelectionCaretUpdate
-        // TODO add your handling code here:
-        this.isDisabled();
+        this.isDisabled();  // Verification des conditions
     }//GEN-LAST:event_nameSelectionCaretUpdate
 
+    /*
+    * Méthode appelé pour verifié les conditions de sélection de la fenêtre
+    * Ex: Est ce qu'une équipe a été selectionné ?
+    */
     private void isDisabled() {
+        /*
+        * Si un caractère a été saisie et qu'une équipe a été selectionné passe à true
+        */
         if(!nameSelection.getText().equals("") && (redTeam.isSelected() || blueTeam.isSelected())) {
             Start.setEnabled(true);
         } else {
@@ -187,41 +202,6 @@ public class gameSetting extends javax.swing.JFrame {
         }
     }
     
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(gameSetting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(gameSetting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(gameSetting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(gameSetting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new gameSetting().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Start;
     private javax.swing.JRadioButton blueTeam;

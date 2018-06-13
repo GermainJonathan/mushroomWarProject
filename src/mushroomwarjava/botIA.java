@@ -23,10 +23,7 @@ public class botIA extends Player {
         this.game = game;
         this.intelligence = new IA(this, this.game);
     }
-    
-    public void attackInGame(House myHouse, House targetHouse) {
-    }
-    
+       
     public boolean isAlive() {
         boolean alive = false;
         this.parseBotHouse();
@@ -49,6 +46,15 @@ public class botIA extends Player {
     
     public void intelligenceStart() {
         this.intelligence.start();
+    }
+    
+    public void restartIntelligence() {
+        this.intelligence = new IA(this, this.game);
+        this.intelligenceStart();
+    }
+    
+    public void intelligencePause() {
+        this.intelligence.stopIA();
     }
     
     public House houseCanAttack() {
