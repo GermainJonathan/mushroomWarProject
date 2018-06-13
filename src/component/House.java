@@ -130,7 +130,7 @@ public class House extends javax.swing.JPanel {
         return spawn;
     }
     
-    public void isAttackBy(Unity unit) {       
+    public void isAttackBy(Unity unit, int id) {       
         if(this.unities.size() == 0) {
             this.setPlayer(unit.getPlayer());
         }
@@ -138,6 +138,7 @@ public class House extends javax.swing.JPanel {
         unit.setVisible(false);
         this.game.getActiveStateGame().remove(unit); // suppression de l'entité
         this.game.removeFromUnitList(unit);
+        this.game.removeFromThreadList(id);
     }
     
     public void unSelectHouse() {
