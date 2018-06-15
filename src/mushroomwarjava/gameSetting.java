@@ -161,7 +161,10 @@ public class gameSetting extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Evenement lors du click sur Start
+    /**
+     * Evenement lors du click sur Start
+     * @param evt Evenement
+     */
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
         this.game = new gameUI(); // Création d'une partie
         this.game.setActionPlayer(new Player(this.teamSelected, nameSelection.getText()));  // Préparation de la partie
@@ -170,19 +173,28 @@ public class gameSetting extends javax.swing.JFrame {
         this.game.gameBegin();  // On lance la partie ( permet nottament de gérer les différents threads dont l'IA )
     }//GEN-LAST:event_StartActionPerformed
 
-    // Evenement lors du click sur le champignon Bleu ( choix de l'équipe )
+    /**
+     * Evenement lors du click sur le champignon Bleu ( choix de l'équipe )
+     * @param evt Evenement
+     */
     private void blueTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueTeamActionPerformed
         this.teamSelected = Player.TEAM_BLUE;   // on choisit l'équipe bleu
         this.isDisabled();  // Verification des conditions
     }//GEN-LAST:event_blueTeamActionPerformed
 
-    // Evenement lors du click sur le champignon Rouge
+    /**
+     * Evenement lors du click sur le champignon Rouge
+     * @param evt Evenement
+     */
     private void redTeamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redTeamActionPerformed
         this.teamSelected = Player.TEAM_RED;    // on choisit l'équipe rouge
         this.isDisabled();  // Verification des conditions
     }//GEN-LAST:event_redTeamActionPerformed
 
-    // Evenement lors de la saisie clavier du nom
+    /**
+     * Evenement lors de la saisie clavier du nom
+     * @param evt Evenement
+     */
     private void nameSelectionCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_nameSelectionCaretUpdate
         this.isDisabled();  // Verification des conditions
     }//GEN-LAST:event_nameSelectionCaretUpdate

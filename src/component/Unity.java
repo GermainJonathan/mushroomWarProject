@@ -10,12 +10,16 @@ import java.awt.Graphics;
 import mushroomwarjava.Player;
 
 /**
- *
+ *  Composant graphique représentant une unité
  * @author Jonathan Germain
  */
 public class Unity extends javax.swing.JPanel {
 
+    /**
+     * Joueur auquel appartient cette unité
+     */
     private Player currentPlayer;
+    
     /**
      * Creates new form Unity
      */
@@ -24,12 +28,21 @@ public class Unity extends javax.swing.JPanel {
         setSize(15, 15);
     }
     
+    /**
+     * Constructeur
+     * @param thePlayer Joueur auquel appartient cette unité
+     */
     public Unity(Player thePlayer) {
         initComponents();
         setSize(15, 15);
         this.setPlayer(thePlayer);
     }
 
+    /**
+     * On dessine l'unité lors de sa création
+     * On lui associe la couleur de l'équipe du joueur associé
+     * @param g 
+     */
     @Override
     protected void paintComponent(Graphics g) {
         if(this.currentPlayer != null) {
@@ -41,11 +54,19 @@ public class Unity extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Permet d'associé un joueur à l'unité
+     * @param p Joueur
+     */
     public void setPlayer(Player p) {
         this.currentPlayer = p;
         this.repaint();
     }
     
+    /**
+     * Renvoie le joueur détenteur de l'unité
+     * @return Player
+     */
     public Player getPlayer() {
         return this.currentPlayer;
     }
@@ -74,8 +95,6 @@ public class Unity extends javax.swing.JPanel {
             .addGap(0, 300, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

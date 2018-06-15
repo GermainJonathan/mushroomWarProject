@@ -27,9 +27,9 @@ public class botIA extends Player {
     
     /**
      * constructeur
-     * @param team
-     * @param name
-     * @param game 
+     * @param team équipe du bot
+     * @param name nom du bot ( héritage de Player )
+     * @param game instance de la partie
      */
     public botIA(int team, String name, gameUI game) {
         super(team, name);
@@ -39,7 +39,7 @@ public class botIA extends Player {
        
     /**
      * renvoie true si le bot est vivant
-     * @return 
+     * @return boolean
      */
     public boolean isAlive() {
         boolean alive = false;
@@ -89,7 +89,7 @@ public class botIA extends Player {
     /**
      * Renvoie une Maison si elle est en mesure d'attaquer
      * Si son nombre d'unité est supérieur à 15
-     * @return 
+     * @return House
      */
     public House houseCanAttack() {
         for(House elem: this.houses) {

@@ -33,8 +33,8 @@ public class GenerateUnity extends Thread {
     
     /**
      * Constructeur
-     * @param currentHouse
-     * @param game 
+     * @param currentHouse Maison associé à la génération
+     * @param game instance du jeu en cours
      */
     public GenerateUnity(House currentHouse, gameUI game) {
         this.currentHouse = currentHouse;

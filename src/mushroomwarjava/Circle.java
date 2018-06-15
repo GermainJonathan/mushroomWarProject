@@ -16,6 +16,12 @@ public class Circle {
     private int posY;
     private int radius;
 
+    /**
+     * Constructeur
+     * @param posX Position x
+     * @param posY  Position y
+     * @param radius Rayon du cercle
+     */
     public Circle(int posX, int posY, int radius) {
         this.posX = posX;
         this.posY = posY;
@@ -24,7 +30,7 @@ public class Circle {
 
     /**
      * Retourne le x du cercle
-     * @return 
+     * @return coordonnée x du cercle
      */
     public int getPosX() {
         return posX;
@@ -32,7 +38,7 @@ public class Circle {
     
     /**
      * Retourne le y du cercle
-     * @return 
+     * @return coordonée y du cercle
      */
     public int getPosY() {
         return posY;
@@ -40,7 +46,7 @@ public class Circle {
 
     /**
      * Retourne le rayon du cercle
-     * @return 
+     * @return le rayon du cercle
      */
     public int getRadius() {
         return radius;
@@ -49,8 +55,8 @@ public class Circle {
     /**
      * Condition sur la hitbox d'une maison
      * Renvoie true si l'unité est contenu dans la hitbox
-     * @param c
-     * @return 
+     * @param c unité
+     * @return Vrai si l'unité est comprise dans le cercle
      */
     public boolean contains(Component c){
         return this.contains(c.getX(), c.getY());
@@ -58,9 +64,9 @@ public class Circle {
    
     /**
      * Renvoie true si le point en entré est contenu dans le cercle
-     * @param posX
-     * @param posY
-     * @return 
+     * @param posX Position X à tester
+     * @param posY  Position Y à tester
+     * @return Vrai si le point en [x, y] est contenu dans le cercle
      */
     public boolean contains(int posX, int posY){
         return (posX >= this.posX &&
