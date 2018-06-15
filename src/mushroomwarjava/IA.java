@@ -31,8 +31,8 @@ public class IA extends Thread {
     
     /**
      * constructeur
-     * @param bot
-     * @param game 
+     * @param bot Joueur factice
+     * @param game instance du jeu en cours
      */
     public IA(botIA bot, gameUI game) {
         this.activeIA = true;
@@ -42,8 +42,8 @@ public class IA extends Thread {
 
     /**
      * Attaque d'une autre maison
-     * @param source
-     * @param target 
+     * @param source Maison attaquante
+     * @param target Maison ciblé
      */
     private void attackNeighbor(House source, House target) {
         target.isTarget(source);

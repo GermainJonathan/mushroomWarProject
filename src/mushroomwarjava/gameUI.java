@@ -221,7 +221,10 @@ public class gameUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Evenement lors du click sur le bouton Continuer du menu Pause
+    /**
+     * Evenement lors du click sur le bouton Continuer du menu Pause
+     * @param evt Evenement
+     */
     private void ContinuerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContinuerActionPerformed
         this.Menu.setVisible(false); // on cache le menu
         /**
@@ -240,7 +243,10 @@ public class gameUI extends javax.swing.JFrame {
         this.requestFocus();    // On rends le focus au JEU ( permet de refaire pause si besoin ) 
     }//GEN-LAST:event_ContinuerActionPerformed
 
-    // Evenement lors du click sur "Revenir au menu du jeu"
+    /**
+     * Evenement lors du click sur "Revenir au menu du jeu"
+     * @param evt Evenement
+     */
     private void backToMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backToMenuActionPerformed
         this.Menu.setVisible(false); // on cache le menu
         this.setVisible(false); // on cache cette instance du jeu
@@ -248,7 +254,10 @@ public class gameUI extends javax.swing.JFrame {
         this.progressGame.stopGame(); // on arrete la progression de la partie
     }//GEN-LAST:event_backToMenuActionPerformed
 
-    // Controleur permettant l'ouverture du menu pause
+    /**
+     * Controleur permettant l'ouverture du menu pause
+     * @param evt Evenement
+     */
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
         if(evt.getKeyCode() == KeyEvent.VK_ESCAPE) { // lors de l'appuie sur ESC
             /**
@@ -266,7 +275,10 @@ public class gameUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_formKeyPressed
 
-    // TODO: Evenement lors du click sur le bouton Sauvegarder
+    /**
+     * TODO: Evenement lors du click sur le bouton Sauvegarder
+     * @param evt Evenement
+     */
     private void SauvegarderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SauvegarderActionPerformed
         File f = new File("test.save");
         FileOutputStream fis = null;
@@ -287,7 +299,7 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Générateur d'id de thread de mouvement
-     * @return l'id a attribuer au Thread
+     * @return l'id à attribuer au Thread
      */
     public int getId() {
         return this.threadId++;
@@ -295,7 +307,7 @@ public class gameUI extends javax.swing.JFrame {
 
     /**
      * Assignation du joueur
-     * @param playable 
+     * @param playable Joueur
      */
     public void setActionPlayer(Player playable) {
         this.actionPlayer = playable;
@@ -304,7 +316,7 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Getter du joueur de la partie
-     * @return 
+     * @return Renvoie le joueur actif
      */
     public Player getActionPlayer() {
         return this.actionPlayer;
@@ -312,7 +324,7 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Retourne la liste des maisons de la partie
-     * @return 
+     * @return Liste de toute les maisons
      */
     public List<House> getHouses() {
         return this.housesOfGame;
@@ -321,7 +333,7 @@ public class gameUI extends javax.swing.JFrame {
     /**
      * Retourne les élements graphique du jeu
      * Permet de supprimer une unité de l'affichage du jeu
-     * @return 
+     * @return JPanel du jeu
      */
     public JPanel getActiveStateGame() {
         return this.jPanel1;
@@ -369,10 +381,10 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Ajoute une untié à la partie et lance un thread de mouvement vers la maison ciblé
-     * @param unit
-     * @param x
-     * @param y
-     * @param target 
+     * @param unit Unité à ajouter
+     * @param x Position x du spawn de l'unité
+     * @param y Position y du spawn de l'unité
+     * @param target Maison ciblé
      */
     public void addUnitToGame(Unity unit, int x, int y, House target) {
         if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
@@ -388,8 +400,8 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Lancement du thread de mouvement d'une unité vers une cible
-     * @param unit
-     * @param target 
+     * @param unit unité à bouger
+     * @param target Maison cible
      */
     private void goToAttackedHouse(Unity unit, House target) {
         this.targetAttack = new targetHouse(this.jPanel1, unit, target, this.getId());
@@ -422,7 +434,7 @@ public class gameUI extends javax.swing.JFrame {
         
     /**
      * Retourne le nombre d'unité encore en jeu mais non rattaché à une maison
-     * @return 
+     * @return Entier indiquant le nombre total d'unitées en jeu
      */
     public int getCountUnitiesOfTheGame() {
         return (this.blueUnit.size() + this.redUnit.size());
@@ -430,7 +442,7 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Retourne le nombre d'unité bleu active
-     * @return 
+     * @return Entier indiquant le nombre d'unité de l'équipe bleu
      */
     public int getBlueUnities() {
         return this.blueUnit.size();
@@ -438,7 +450,7 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * Retourne le nombre d'unité rouge active
-     * @return 
+     * @return Entier indiquant le nombre d'unité de l'équipe rouge
      */
     public int getRedUnities() {
         return this.redUnit.size();
@@ -446,7 +458,7 @@ public class gameUI extends javax.swing.JFrame {
 
     /**
      * Permet d'ajouter une unité rouge à la liste
-     * @param redUnit 
+     * @param redUnit Unité à ajouter
      */
     public void setRedUnit(Unity redUnit) {
         this.redUnit.add(redUnit);
@@ -463,7 +475,7 @@ public class gameUI extends javax.swing.JFrame {
  
     /**
      *  Permet d'ajouter une unité bleu à la liste
-     * @param blueUnit 
+     * @param blueUnit Unité à ajouter 
      */
     public void setBlueUnit(Unity blueUnit) {
         this.blueUnit.add(blueUnit);
@@ -480,7 +492,7 @@ public class gameUI extends javax.swing.JFrame {
     
     /**
      * gestion de la suppression d'unitées
-     * @param unit 
+     * @param unit Unité à supprimer
      */
     public void removeFromUnitList(Unity unit) {
         if(unit.getPlayer().getTeam() == Player.TEAM_BLUE) {
@@ -493,7 +505,7 @@ public class gameUI extends javax.swing.JFrame {
     /**
      * Gestion de la suppression des threads
      * Permet de mettre le jeu en pause
-     * @param id 
+     * @param id  Numéro du thread à supprimer
      */
     public void removeFromThreadList(int id) {
         Iterator<targetHouse> iter = this.threadVector.iterator();    
@@ -508,7 +520,7 @@ public class gameUI extends javax.swing.JFrame {
     /**
      * Fin du jeu
      * Création de la scene associée et affichage du score
-     * @param TeamWinner 
+     * @param TeamWinner Entier indiquant l'équipe gagante
      */
     public void endOfTheGame(int TeamWinner) {
         new GameOver(this, TeamWinner).setVisible(true);

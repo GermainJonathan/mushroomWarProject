@@ -8,13 +8,24 @@ package component;
 import mushroomwarjava.Player;
 
 /**
- *
+ * Composant graphique gérant la bar de progression du jeu
  * @author Jonathan Germain
  */
 public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
     
+    /**
+     * nombre d'unitées rouge
+     */
     private int redUnit;
+    
+    /**
+     * nombre d'unité bleu
+     */
     private int blueUnit;
+    
+    /**
+     * nombre d'unité total en jeu
+     */
     private int totalUnit;
     
     /**
@@ -24,6 +35,11 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
         initComponents();
     }
     
+    /**
+     * Permet de mettre à jour la bar de progression
+     * @param i nombre d'unité bleu
+     * @param total total d'unité calculé
+     */
     public void refreshProgressBar(int i, int total) {
         this.blueUnit = i;
         this.clear2();
@@ -34,10 +50,18 @@ public class UnitiesProgessBar extends biprogressbar.BiProgressBar {
         this.totalUnit = total;
     }
     
+    /**
+     * Test l'état de la partie
+     * @return Vrai si les deux joueur possèdent encore une unité
+     */
     public boolean isTwoPlayerAlive() {
         return (this.blueUnit == 0 || this.redUnit == 0);
     }
 
+    /**
+     * Permet de déterminer la couleur de l'équipe victorieuse
+     * @return Equipe gagnante
+     */
     public int whoWin() {
         int winner = -1;
         if(this.redUnit == 0) {

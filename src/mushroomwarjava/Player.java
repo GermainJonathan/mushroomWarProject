@@ -51,8 +51,8 @@ public class Player {
 
     /**
      * Constructeur
-     * @param team
-     * @param name 
+     * @param team Entier couleur de l'équipe
+     * @param name Nom du joueur
      */
     public Player(int team, String name) {
         this.houses = new ArrayList<>();
@@ -62,7 +62,7 @@ public class Player {
     
     /**
      * Retourne le nombre total d'unité du joueur
-     * @return 
+     * @return Entier indiquant le nombre d'unité du joueur
      */
     public int getUnities() {
         int compt = 0;
@@ -74,7 +74,7 @@ public class Player {
 
     /**
      * Retourne l'équipe du joueur
-     * @return 
+     * @return Entier indiquant l'équipe du joueur
      */
     public int getTeam() {
         return team;
@@ -82,7 +82,7 @@ public class Player {
 
     /**
      * Retourne le nom du joueur
-     * @return 
+     * @return String indiquant nom du joueur
      */
     public String getName() {
         return name;
@@ -90,7 +90,7 @@ public class Player {
 
     /**
      * Permet d'ajouter une maison à la liste 
-     * @param theMaison 
+     * @param theMaison Maison à ajouter à la liste du joueur
      */
     public void addHouse(House theMaison) {
         this.houses.add(theMaison);
@@ -98,7 +98,7 @@ public class Player {
     
     /**
      * Retourne la maison sélectionné par le joueur
-     * @return 
+     * @return La maison selectionné
      */
     public House getSelectedHouse() {
         return this.selectedHouse;
@@ -106,7 +106,7 @@ public class Player {
     
     /**
      * Selection de la maison active
-     * @param selection 
+     * @param selection Maison à sélectionner
      */
     public void setHouseSelected(House selection) {
         if(this.selectedHouse != null) {
@@ -117,7 +117,7 @@ public class Player {
     
     /**
      * Retourne la liste des maisons du joueur
-     * @return 
+     * @return Liste de maison du joueur
      */
     public List<House> getHouses() {
         return houses;
@@ -131,6 +131,10 @@ public class Player {
         this.houses = houses;
     }
     
+    /**
+     * Override de la méthode toString()
+     * @return le nom du joueur
+     */
     @Override
     public String toString() {
         return name;

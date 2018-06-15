@@ -7,7 +7,7 @@ package mushroomwarjava;
 import java.awt.Toolkit;
 
 /**
- *
+ *  Fenêtre de fin du jeu
  * @author jgermain
  */
 public class GameOver extends javax.swing.JFrame {
@@ -94,16 +94,21 @@ public class GameOver extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Evenement lors du click sur le bouton Rejouer
+    /**
+     * Evenement lors du click sur le bouton Rejouer
+     * @param evt Evenement jouer
+     */
     private void replayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replayActionPerformed
         this.setVisible(false);
         this.oldGame.setVisible(false);
         new gameSetting().setVisible(true);
     }//GEN-LAST:event_replayActionPerformed
-
-    // Evenement lors du click sur le bouton Quitter
+    /**
+     * Evenement lors du click sur le bouton Quitter
+     * @param evt Evenement jouer
+     */
     private void quitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitActionPerformed
-        System.exit(-1);
+        System.exit(0);
     }//GEN-LAST:event_quitActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel icon;

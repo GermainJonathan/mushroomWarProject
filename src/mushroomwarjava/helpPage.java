@@ -79,7 +79,10 @@ public class helpPage extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Evenement au click sur le bouton RETOUR
+    /**
+     * Evenement au click sur le bouton RETOUR
+     * @param evt Evenement
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false);
         new mushroomUI().setVisible(true);

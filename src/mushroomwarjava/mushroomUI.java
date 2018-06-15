@@ -20,7 +20,11 @@ import javax.swing.ImageIcon;
  */
 public class mushroomUI extends javax.swing.JFrame {
 
+    /**
+     * Chemin vers l'icone de la fenêtre
+     */
     private final ImageIcon icon = new ImageIcon("../../assets/mushroomWarIcon.gif");
+    
     /**
      * Creates new form mushroomUI
      */
@@ -131,24 +135,36 @@ public class mushroomUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    // Evenement au click sur le bouton "Jouer"
+    /**
+     * Evenement au click sur le bouton "Jouer"
+     * @param evt Evenement
+     */
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         this.setVisible(false); // On cache la fenêtre du menu principal
         new gameSetting().setVisible(true); // création de la fenêtre de configuration de la partie
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    // Evenement au click sur le bouton "Quitter"
+    /**
+     * Evenement au click sur le bouton "Quitter"
+     * @param evt Evenement
+     */
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         System.exit(0); // Fin du programme avec le code 0
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    // Evenement au click sur le bouton "Aide"
+    /**
+     * Evenement au click sur le bouton "Aide"
+     * @param evt Evenement
+     */
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         this.setVisible(false); // On cache la fenêtre du menu principal
         new helpPage().setVisible(true);    // création de la fenêtre de configuration de la partie
     }//GEN-LAST:event_jButton3ActionPerformed
 
-    // Evenement "bonus" Ouverture du site du VRAI jeu lors du click sur la banière
+    /**
+     * Evenement "bonus" Ouverture du site du VRAI jeu lors du click sur la banière
+     * @param evt Evenement
+     */
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
         URI uri = URI.create("https://mushroomwars2.com/");
         try {
@@ -157,7 +173,6 @@ public class mushroomUI extends javax.swing.JFrame {
             Logger.getLogger(mushroomUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel1MouseClicked
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
